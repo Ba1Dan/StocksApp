@@ -4,17 +4,18 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.baiganov.stocksapp.data.entity.StockEntity
+import com.baiganov.stocksapp.data.entity.FavouriteEntity
+import com.baiganov.stocksapp.data.model.Stock
 
-@Database(entities = [StockEntity::class], version = 1, exportSchema = true)
-abstract class FavouriteStocksDatabase : RoomDatabase() {
+@Database(entities = [FavouriteEntity::class, Stock::class], version = 1, exportSchema = true)
+abstract class StocksDatabase : RoomDatabase() {
 
     abstract val favouriteStockDao: FavouriteStockDao
+    abstract val stockDao: StocksDao
 
     companion object {
-        fun create(context: Context): FavouriteStocksDatabase =
-            Room.databaseBuilder(context, FavouriteStocksDatabase::class.java, "aaa.db")
+        fun create(context: Context): StocksDatabase =
+            Room.databaseBuilder(context, StocksDatabase::class.java, "stocks_application.db")
                 .build()
-
     }
 }

@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 import com.baiganov.stocksapp.data.model.Stock
 
 @Entity(tableName = "favourite_stocks")
-class StockEntity(
+class FavouriteEntity(
     val currency: String,
     @PrimaryKey
     val name: String,
@@ -16,8 +16,8 @@ class StockEntity(
     var isFavourite: Boolean
 )
 
-fun convert(stock: Stock): StockEntity {
-    return StockEntity(
+fun convert(stock: Stock): FavouriteEntity {
+    return FavouriteEntity(
         currency = stock.currency,
         name = stock.name,
         ticker = stock.ticker,

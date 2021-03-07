@@ -10,6 +10,7 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.baiganov.stocksapp.R
+import com.baiganov.stocksapp.data.entity.FavouriteEntity
 import com.baiganov.stocksapp.data.entity.StockEntity
 import com.baiganov.stocksapp.data.entity.convert
 import com.baiganov.stocksapp.data.model.Stock
@@ -54,7 +55,7 @@ class StocksAdapter(
     }
 
     fun interface ItemClickListener {
-        fun onStarClick(favourite: Boolean, stock: StockEntity)
+        fun onStarClick(favourite: Boolean, stock: FavouriteEntity)
     }
 
     inner class StocksViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

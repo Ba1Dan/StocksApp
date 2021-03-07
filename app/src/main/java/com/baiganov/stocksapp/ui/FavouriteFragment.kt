@@ -1,26 +1,22 @@
 package com.baiganov.stocksapp.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.baiganov.stocksapp.R
 import com.baiganov.stocksapp.adapters.StocksAdapter
 import com.baiganov.stocksapp.adapters.VerticalSpaceItemDecoration
-import com.baiganov.stocksapp.api.ApiFactory
-import com.baiganov.stocksapp.data.entity.StockEntity
+import com.baiganov.stocksapp.data.entity.FavouriteEntity
 import com.baiganov.stocksapp.data.model.Stock
-import com.baiganov.stocksapp.db.FavouriteStocksDatabase
-import com.baiganov.stocksapp.repositories.StocksRepositoryImpl
+import com.baiganov.stocksapp.db.StocksDatabase
 import com.baiganov.stocksapp.viewmodel.FavouriteStocksFactory
 import com.baiganov.stocksapp.viewmodel.FavouriteStocksViewModel
-import com.baiganov.stocksapp.viewmodel.StocksListFactory
-import com.baiganov.stocksapp.viewmodel.StocksListViewModel
 
 class FavouriteFragment : Fragment() {
 
@@ -35,19 +31,23 @@ class FavouriteFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_favourite, container, false)
     }
 
+    override fun onResume() {
+        super.onResume()
+        refreshData()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         rvStocks = view.findViewById(R.id.rv_stocks)
-        setupRecyclerView()
-        val database = FavouriteStocksDatabase.create(requireContext())
+        val database = StocksDatabase.create(requireContext())
         viewModel = ViewModelProvider(this, FavouriteStocksFactory(database.favouriteStockDao)).get(
             FavouriteStocksViewModel::class.java)
-
         viewModel.data.observe(this, {
             setData(it)
         })
+        setupRecyclerView()
     }
 
-    private fun setData(stocks: List<StockEntity>) {
+    private fun setData(stocks: List<FavouriteEntity>) {
         val data = mutableListOf<Stock>()
         stocks.map {
             data.add(
@@ -71,9 +71,16 @@ class FavouriteFragment : Fragment() {
         rvStocks.addItemDecoration(VerticalSpaceItemDecoration(8))
     }
 
+    private fun refreshData() {
+        viewModel.getData()
+        viewModel.data.observe(this, {
+            setData(it)
+        })
+    }
+
     private val clickListener = StocksAdapter.ItemClickListener { favourite, stock -> onClick(favourite = favourite, stock = stock) }
 
-    private fun onClick(favourite: Boolean, stock: StockEntity) {
+    private fun onClick(favourite: Boolean, stock: FavouriteEntity) {
         if (favourite) {
             stock.isFavourite = false
             viewModel.delete(stock)

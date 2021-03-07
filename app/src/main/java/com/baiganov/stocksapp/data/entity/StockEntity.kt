@@ -1,10 +1,10 @@
-package com.baiganov.stocksapp.data.model
+package com.baiganov.stocksapp.data.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "list_stocks")
-data class Stock(
+
+data class StockEntity(
     val currency: String,
     @PrimaryKey
     val name: String,
@@ -14,4 +14,3 @@ data class Stock(
     val percentDelta: Double = 1.0,
     var isFavourite: Boolean = false
 )
-

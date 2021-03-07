@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,9 +14,9 @@ import com.baiganov.stocksapp.R
 import com.baiganov.stocksapp.adapters.StocksAdapter
 import com.baiganov.stocksapp.adapters.VerticalSpaceItemDecoration
 import com.baiganov.stocksapp.api.ApiFactory
-import com.baiganov.stocksapp.data.entity.StockEntity
+import com.baiganov.stocksapp.data.entity.FavouriteEntity
 import com.baiganov.stocksapp.data.model.Stock
-import com.baiganov.stocksapp.db.FavouriteStocksDatabase
+import com.baiganov.stocksapp.db.StocksDatabase
 import com.baiganov.stocksapp.repositories.StocksRepositoryImpl
 import com.baiganov.stocksapp.viewmodel.StocksListFactory
 import com.baiganov.stocksapp.viewmodel.StocksListViewModel
@@ -25,6 +27,7 @@ class FragmentStocksList : Fragment() {
     private lateinit var adapter: StocksAdapter
     private lateinit var rvStocks: RecyclerView
     private lateinit var data: List<Int>
+    private lateinit var pbStocks: ProgressBar
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_stocks_list, container, false)
@@ -32,12 +35,22 @@ class FragmentStocksList : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         rvStocks = view.findViewById(R.id.rv_stocks)
+        pbStocks = view.findViewById(R.id.pb_stocks)
         setupRecyclerView()
-        val database = FavouriteStocksDatabase.create(requireContext())
-        viewModel = ViewModelProvider(this, StocksListFactory(StocksRepositoryImpl(ApiFactory.apiService), database.favouriteStockDao)).get(StocksListViewModel::class.java)
+        val database = StocksDatabase.create(requireContext())
+        viewModel = ViewModelProvider(this, StocksListFactory(StocksRepositoryImpl(ApiFactory.apiService, database.stockDao), database.favouriteStockDao)).get(StocksListViewModel::class.java)
         viewModel.data.observe(this, {
             update(it)
         })
+        viewModel.isLoading.observe(viewLifecycleOwner) { loading ->
+            pbStocks.visibility = if (loading) View.VISIBLE else View.GONE
+        }
+        viewModel.isNetworking.observe(viewLifecycleOwner) {
+            if (!it) {
+                Toast.makeText(requireContext(), "No networking", Toast.LENGTH_SHORT).show()
+            }
+        }
+
     }
 
     private fun setupRecyclerView() {
@@ -54,7 +67,7 @@ class FragmentStocksList : Fragment() {
     }
 
     /*Если уже в избранном, то удалить, если нет то вставить*/
-    private fun onClick(favourite: Boolean, stock: StockEntity) {
+    private fun onClick(favourite: Boolean, stock: FavouriteEntity) {
         if (favourite) {
             stock.isFavourite = false
             viewModel.delete(stock)

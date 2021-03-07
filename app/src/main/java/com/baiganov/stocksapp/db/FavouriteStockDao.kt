@@ -2,19 +2,20 @@ package com.baiganov.stocksapp.db
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.baiganov.stocksapp.data.entity.FavouriteEntity
 import com.baiganov.stocksapp.data.entity.StockEntity
 
 @Dao
 interface FavouriteStockDao {
 
     @Query("SELECT * FROM favourite_stocks")
-    fun getData(): LiveData<List<StockEntity>>
+    suspend fun getData(): List<FavouriteEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(stock: StockEntity)
+    suspend fun insert(stock: FavouriteEntity)
 
     @Delete
-    suspend fun delete(stock: StockEntity)
+    suspend fun delete(stock: FavouriteEntity)
 
     @Query("DELETE FROM favourite_stocks")
     suspend fun deleteAll()

@@ -1,5 +1,6 @@
 package com.baiganov.stocksapp
 
+import android.annotation.SuppressLint
 import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
@@ -35,12 +36,12 @@ class MainActivity : AppCompatActivity() {
         tablayout = findViewById(R.id.tab_layout)
         val adapter = PagerViewAdapter(supportFragmentManager, lifecycle)
         viewPager.adapter = adapter
+        viewPager.offscreenPageLimit = 1
         TabLayoutMediator(tablayout, viewPager) { tab, position ->
             when(position) {
                 0 -> {
                     tab.text = "Stocks"
                 }
-
                 1 -> {
                     tab.text = "Favourite"
                     tab.view.children.forEach {
@@ -48,7 +49,6 @@ class MainActivity : AppCompatActivity() {
                             it.post{
                                 it.setTextAppearance(this, R.style.TabLayoutStyleSmall)
                             }
-
                         }
                     }
                 }
@@ -63,19 +63,16 @@ class MainActivity : AppCompatActivity() {
                             it.setTextAppearance(applicationContext, R.style.TabLayoutStyle)
 
                         }
-
                     }
                 }
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
-
                 tab?.view?.children?.forEach {
                     if (it is TextView) {
                         it.post {
                             it.setTextAppearance(applicationContext, R.style.TabLayoutStyleSmall)
                         }
-
                     }
                 }
             }
