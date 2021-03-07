@@ -7,7 +7,7 @@ import com.baiganov.stocksapp.data.json.StockPrice
 import com.baiganov.stocksapp.data.json.StocksJsonModel
 import com.baiganov.stocksapp.data.model.Stock
 
-class Repository(
+class StocksRepositoryImpl(
     private val apiService: ApiService
 ) : StocksRepository {
 

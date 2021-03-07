@@ -9,3 +9,4 @@ data class Stock(
     val percentDelta: Double = 1.0,
     var isFavourite: Boolean = false
 )
+

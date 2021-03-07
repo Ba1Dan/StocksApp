@@ -12,8 +12,10 @@ import com.baiganov.stocksapp.R
 import com.baiganov.stocksapp.adapters.StocksAdapter
 import com.baiganov.stocksapp.adapters.VerticalSpaceItemDecoration
 import com.baiganov.stocksapp.api.ApiFactory
+import com.baiganov.stocksapp.data.entity.StockEntity
 import com.baiganov.stocksapp.data.model.Stock
-import com.baiganov.stocksapp.repositories.Repository
+import com.baiganov.stocksapp.db.FavouriteStocksDatabase
+import com.baiganov.stocksapp.repositories.StocksRepositoryImpl
 import com.baiganov.stocksapp.viewmodel.StocksListFactory
 import com.baiganov.stocksapp.viewmodel.StocksListViewModel
 
@@ -31,27 +33,34 @@ class FragmentStocksList : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         rvStocks = view.findViewById(R.id.rv_stocks)
         setupRecyclerView()
-        viewModel = ViewModelProvider(this, StocksListFactory(Repository(ApiFactory.apiService))).get(StocksListViewModel::class.java)
+        val database = FavouriteStocksDatabase.create(requireContext())
+        viewModel = ViewModelProvider(this, StocksListFactory(StocksRepositoryImpl(ApiFactory.apiService), database.favouriteStockDao)).get(StocksListViewModel::class.java)
         viewModel.data.observe(this, {
             update(it)
         })
     }
 
     private fun setupRecyclerView() {
-        adapter = StocksAdapter()
+        adapter = StocksAdapter(clickListener)
         rvStocks.layoutManager = LinearLayoutManager(requireContext())
         rvStocks.adapter = adapter
         rvStocks.addItemDecoration(VerticalSpaceItemDecoration(8))
     }
 
+    private val clickListener = StocksAdapter.ItemClickListener { favourite, stock -> onClick(favourite = favourite, stock = stock) }
+
     private fun update(stocks: List<Stock>) {
         adapter.bindMovies(stocks)
     }
 
-    private val clickListener = StocksAdapter.ItemClickListener { favourite -> onClick(favourite) }
-
-    private fun onClick(favourite: Boolean) {
-
+    /*Если уже в избранном, то удалить, если нет то вставить*/
+    private fun onClick(favourite: Boolean, stock: StockEntity) {
+        if (favourite) {
+            stock.isFavourite = false
+            viewModel.delete(stock)
+        } else {
+            stock.isFavourite = true
+            viewModel.insert(stock)
+        }
     }
-
 }

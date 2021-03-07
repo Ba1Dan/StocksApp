@@ -7,36 +7,31 @@ import androidx.lifecycle.viewModelScope
 import com.baiganov.stocksapp.data.entity.StockEntity
 import com.baiganov.stocksapp.data.model.Stock
 import com.baiganov.stocksapp.db.FavouriteStockDao
-import com.baiganov.stocksapp.repositories.StocksRepositoryImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class StocksListViewModel(private val repository: StocksRepositoryImpl, private val db: FavouriteStockDao) : ViewModel(){
+class FavouriteStocksViewModel(private val db: FavouriteStockDao) : ViewModel() {
 
-    private val _data = MutableLiveData<List<Stock>>()
-
-    val data: LiveData<List<Stock>> = _data
+    val data: LiveData<List<StockEntity>> = db.getData()
 
     init {
-        loadData()
+        //deleteAll()
     }
-
     fun insert(stock: StockEntity) {
         viewModelScope.launch(Dispatchers.IO) {
-            db.insert(stock)
+            db.insert(stock = stock)
         }
     }
 
     fun delete(stock: StockEntity) {
         viewModelScope.launch(Dispatchers.IO) {
-            db.delete(stock)
+            db.delete(stock = stock)
         }
     }
 
-    private fun loadData() {
+    private fun deleteAll() {
         viewModelScope.launch(Dispatchers.IO) {
-            val str = repository.getIndex()
-            _data.postValue(str)
+            db.deleteAll()
         }
     }
 }
