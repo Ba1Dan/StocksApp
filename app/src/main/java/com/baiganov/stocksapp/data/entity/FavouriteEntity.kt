@@ -13,6 +13,7 @@ class FavouriteEntity(
     val logo: String,
     val currentPrice: Float,
     val percentDelta: Double,
+    val priceDelta: Double,
     var isFavourite: Boolean
 )
 
@@ -24,7 +25,8 @@ fun convert(stock: Stock): FavouriteEntity {
         logo = stock.logo,
         currentPrice = stock.currentPrice,
         percentDelta = stock.percentDelta,
-        isFavourite = stock.isFavourite
+        isFavourite = stock.isFavourite,
+        priceDelta = stock.priceDelta
     )
 }
 

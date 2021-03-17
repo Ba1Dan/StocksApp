@@ -14,11 +14,15 @@ class PagerViewAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
     override fun createFragment(position: Int): Fragment {
         return when(position) {
             0 -> FragmentStocksList()
-            1 -> FavouriteFragment()
+            1 -> {
+                FavouriteFragment()
+            }
             else -> {
                 FragmentStocksList()
             }
         }
     }
+
+
 }
 

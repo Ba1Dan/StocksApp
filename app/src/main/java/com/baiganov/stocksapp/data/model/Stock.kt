@@ -12,6 +12,7 @@ data class Stock(
     val logo: String,
     val currentPrice: Float,
     val percentDelta: Double = 1.0,
+    val priceDelta: Double,
     var isFavourite: Boolean = false
 )
 

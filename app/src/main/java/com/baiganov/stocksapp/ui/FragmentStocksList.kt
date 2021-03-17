@@ -63,7 +63,7 @@ class FragmentStocksList : Fragment() {
     private val clickListener = StocksAdapter.ItemClickListener { favourite, stock -> onClick(favourite = favourite, stock = stock) }
 
     private fun update(stocks: List<Stock>) {
-        adapter.bindMovies(stocks)
+        adapter.bindStocks(stocks)
     }
 
     /*Если уже в избранном, то удалить, если нет то вставить*/

@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import com.baiganov.stocksapp.data.model.Stock
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface StocksDao {
@@ -16,4 +17,7 @@ interface StocksDao {
 
     @Query("DELETE FROM list_stocks")
     suspend fun deleteAll()
+
+    @Query("SELECT * FROM list_stocks WHERE ticker LIKE :searchQuery")
+    fun searchDatabase(searchQuery: String): Flow<List<Stock>>
 }

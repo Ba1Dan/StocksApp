@@ -5,8 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.baiganov.stocksapp.data.entity.FavouriteEntity
-import com.baiganov.stocksapp.data.entity.StockEntity
-import com.baiganov.stocksapp.data.model.Stock
 import com.baiganov.stocksapp.db.FavouriteStockDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -31,7 +29,6 @@ class FavouriteStocksViewModel(private val db: FavouriteStockDao) : ViewModel() 
         viewModelScope.launch(Dispatchers.IO) {
             db.delete(stock = stock)
         }
-
     }
 
     fun getData() {

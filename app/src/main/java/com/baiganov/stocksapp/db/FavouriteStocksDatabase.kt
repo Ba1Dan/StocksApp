@@ -15,7 +15,7 @@ abstract class StocksDatabase : RoomDatabase() {
 
     companion object {
         fun create(context: Context): StocksDatabase =
-            Room.databaseBuilder(context, StocksDatabase::class.java, "stocks_application.db")
+            Room.databaseBuilder(context, StocksDatabase::class.java, "stocks_application_new.db")
                 .build()
     }
 }

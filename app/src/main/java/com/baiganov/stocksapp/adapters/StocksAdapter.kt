@@ -1,5 +1,6 @@
 package com.baiganov.stocksapp.adapters
 
+import android.annotation.SuppressLint
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -42,14 +43,13 @@ class StocksAdapter(
                 stocksList[position].isFavourite = true
             }
         }
-        Log.i("TEST", stocksList.toString())
     }
 
     override fun getItemCount(): Int {
         return stocksList.size
     }
 
-    fun bindMovies(newStocks: List<Stock>) {
+    fun bindStocks(newStocks: List<Stock>) {
         stocksList = newStocks
         notifyDataSetChanged()
     }
@@ -63,16 +63,37 @@ class StocksAdapter(
         private val cvViewHolder: CardView = itemView.findViewById(R.id.cv_view_holder)
         private val tvTitleTicker: TextView = itemView.findViewById(R.id.tv_title_ticket)
         private val tvTitleStock: TextView = itemView.findViewById(R.id.tv_title_stock)
+        private val tvDeltaPercent: TextView = itemView.findViewById(R.id.tv_day_delta)
         private val ivLogoStock: ImageView = itemView.findViewById(R.id.iv_logo_stock)
         private val tvCurrentPrice: TextView = itemView.findViewById(R.id.tv_current_price)
         private val ivFavourite: ImageView = itemView.findViewById(R.id.iv_favourite)
 
+        @SuppressLint("SetTextI18n")
         fun bind(data: Stock, position: Int) {
             if (position % 2 == 0) {
-                cvViewHolder.setCardBackgroundColor(ContextCompat.getColor(itemView.context, R.color.light_item))
+                cvViewHolder.setCardBackgroundColor(
+                    ContextCompat.getColor(
+                        itemView.context,
+                        R.color.light_item
+                    )
+                )
             } else {
-                cvViewHolder.setCardBackgroundColor(ContextCompat.getColor(itemView.context, R.color.white))
+                cvViewHolder.setCardBackgroundColor(
+                    ContextCompat.getColor(
+                        itemView.context,
+                        R.color.white
+                    )
+                )
             }
+            if (data.priceDelta < 0) {
+                tvDeltaPercent.setTextColor(ContextCompat.getColor(itemView.context, R.color.red))
+            }
+
+            tvDeltaPercent.text =
+                String.format("%.2f", data.priceDelta) + sign + "(" + String.format(
+                    "%.2f",
+                    data.percentDelta
+                ) + percent + ")"
             tvTitleTicker.text = data.ticker
             tvTitleStock.text = data.name
             tvCurrentPrice.text = sign.plus(data.currentPrice)
@@ -93,6 +114,7 @@ class StocksAdapter(
 
     companion object {
         private const val sign = "$"
+        private const val percent = "%"
     }
 }
 

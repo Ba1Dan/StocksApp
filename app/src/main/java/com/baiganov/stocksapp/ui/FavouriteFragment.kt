@@ -58,10 +58,12 @@ class FavouriteFragment : Fragment() {
                     logo = it.logo,
                     currentPrice = it.currentPrice,
                     percentDelta = it.percentDelta,
-                    isFavourite = it.isFavourite)
+                    isFavourite = it.isFavourite,
+                    priceDelta = it.priceDelta
+                    )
             )
         }
-        adapter.bindMovies(data)
+        adapter.bindStocks(data)
     }
 
     private fun setupRecyclerView() {
