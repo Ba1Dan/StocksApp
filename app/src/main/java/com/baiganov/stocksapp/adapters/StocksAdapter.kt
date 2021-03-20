@@ -10,47 +10,60 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.baiganov.stocksapp.R
 import com.baiganov.stocksapp.data.entity.FavouriteEntity
 import com.baiganov.stocksapp.data.entity.StockEntity
 import com.baiganov.stocksapp.data.entity.convert
 import com.baiganov.stocksapp.data.model.Stock
+import com.baiganov.stocksapp.data.model.StockResponse
+import com.baiganov.stocksapp.data.model.Suggestion
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_stock.view.*
 
 class StocksAdapter(
     private val clickListener: ItemClickListener
-) : RecyclerView.Adapter<StocksAdapter.StocksViewHolder>() {
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private var stocksList = listOf<Stock>()
+    private var mData = listOf<StockResponse>()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StocksViewHolder {
-        return StocksViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        /*return StocksViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.item_stock, parent, false)
-        )
+        )*/
+
+        val inflater = LayoutInflater.from(parent.context)
+        return when(viewType) {
+            0-> StocksViewHolder(inflater.inflate(R.layout.item_stock, parent, false))
+            else -> SuggestionViewHolder(inflater.inflate(R.layout.item_suggestion, parent, false))
+        }
     }
 
-    override fun onBindViewHolder(holder: StocksViewHolder, position: Int) {
-        holder.bind(stocksList[position], position)
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        /*holder.bind(mData[position], position)
         holder.itemView.iv_favourite.setOnClickListener {
-            if (stocksList[position].isFavourite) {
+            if (mData[position].isFavourite) {
                 holder.itemView.iv_favourite.setImageResource(R.drawable.ic_default_star)
-                clickListener.onStarClick(true, convert(stocksList[position]))
-                stocksList[position].isFavourite = false
+                clickListener.onStarClick(true, convert(mData[position]))
+                mData[position].isFavourite = false
             } else {
                 holder.itemView.iv_favourite.setImageResource(R.drawable.ic_like)
-                clickListener.onStarClick(false, convert(stocksList[position]))
-                stocksList[position].isFavourite = true
+                clickListener.onStarClick(false, convert(mData[position]))
+                mData[position].isFavourite = true
             }
+        }*/
+        when (holder) {
+            is StocksViewHolder -> holder.bind(mData[position] as Stock, position)
+            is SuggestionViewHolder -> holder.bind(mData[position] as Suggestion)
         }
     }
 
     override fun getItemCount(): Int {
-        return stocksList.size
+        return mData.size
     }
 
-    fun bindStocks(newStocks: List<Stock>) {
-        stocksList = newStocks
+    fun setData(newStocks: List<StockResponse>) {
+        mData = newStocks
         notifyDataSetChanged()
     }
 
@@ -58,7 +71,7 @@ class StocksAdapter(
         fun onStarClick(favourite: Boolean, stock: FavouriteEntity)
     }
 
-    inner class StocksViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class StocksViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         private val cvViewHolder: CardView = itemView.findViewById(R.id.cv_view_holder)
         private val tvTitleTicker: TextView = itemView.findViewById(R.id.tv_title_ticket)
@@ -109,6 +122,27 @@ class StocksAdapter(
                     .load(R.drawable.ic_default_star)
                     .into(ivFavourite)
             }
+        }
+    }
+
+    class SuggestionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+        private val rvTitleStock: RecyclerView = itemView.findViewById(R.id.rv_title_stock)
+        private val tvNameSuggestion: TextView = itemView.findViewById(R.id.tv_name_suggestion)
+
+        fun bind(data: Suggestion) {
+            tvNameSuggestion.text = data.name
+            val adapter = StockTitleAdapter()
+            adapter.setData(data.stocks)
+            rvTitleStock.adapter = adapter
+            rvTitleStock.layoutManager = StaggeredGridLayoutManager(2, RecyclerView.HORIZONTAL)
+        }
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return when(mData[position]) {
+            is Stock -> 0
+            is Suggestion -> 1
         }
     }
 

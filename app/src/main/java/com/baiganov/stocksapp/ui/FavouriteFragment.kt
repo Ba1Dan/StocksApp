@@ -63,7 +63,7 @@ class FavouriteFragment : Fragment() {
                     )
             )
         }
-        adapter.bindStocks(data)
+        adapter.setData(data)
     }
 
     private fun setupRecyclerView() {

@@ -23,10 +23,6 @@ class StocksListViewModel(private val repository: StocksRepositoryImpl, private 
     val isLoading: LiveData<Boolean> = _isLoading
     val isNetworking: LiveData<Boolean> = _isNetworking
 
-    init {
-        loadData()
-    }
-
     fun insert(stock: FavouriteEntity) {
         viewModelScope.launch(Dispatchers.IO) {
             db.insert(stock)
@@ -39,7 +35,7 @@ class StocksListViewModel(private val repository: StocksRepositoryImpl, private 
         }
     }
 
-    private fun loadData() {
+    fun loadData() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val data = repository.updateDate()

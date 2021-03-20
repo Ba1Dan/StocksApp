@@ -1,6 +1,7 @@
 package com.baiganov.stocksapp.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,23 +35,34 @@ class FragmentStocksList : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         rvStocks = view.findViewById(R.id.rv_stocks)
         pbStocks = view.findViewById(R.id.pb_stocks)
         setupRecyclerView()
         val database = StocksDatabase.create(requireContext())
         viewModel = ViewModelProvider(this, StocksListFactory(StocksRepositoryImpl(ApiFactory.apiService, database.stockDao), database.favouriteStockDao)).get(StocksListViewModel::class.java)
-        viewModel.data.observe(this, {
-            update(it)
-        })
-        viewModel.isLoading.observe(viewLifecycleOwner) { loading ->
-            pbStocks.visibility = if (loading) View.VISIBLE else View.GONE
-        }
-        viewModel.isNetworking.observe(viewLifecycleOwner) {
-            if (!it) {
-                Toast.makeText(requireContext(), "No networking", Toast.LENGTH_SHORT).show()
-            }
-        }
 
+        if(savedInstanceState == null) {
+            viewModel.loadData()
+            viewModel.data.observe(this, {
+                update(it)
+            })
+            viewModel.isLoading.observe(viewLifecycleOwner) { loading ->
+                pbStocks.visibility = if (loading) View.VISIBLE else View.GONE
+            }
+            viewModel.isNetworking.observe(viewLifecycleOwner) {
+                if (!it) {
+                    Toast.makeText(requireContext(), "No networking", Toast.LENGTH_SHORT).show()
+                }
+            }
+        } else {
+
+            Toast.makeText(requireContext(), "ИЗ БД вытаскивать данные", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putString("ok", "Load")
     }
 
     private fun setupRecyclerView() {
@@ -63,7 +75,7 @@ class FragmentStocksList : Fragment() {
     private val clickListener = StocksAdapter.ItemClickListener { favourite, stock -> onClick(favourite = favourite, stock = stock) }
 
     private fun update(stocks: List<Stock>) {
-        adapter.bindStocks(stocks)
+        adapter.setData(stocks)
     }
 
     /*Если уже в избранном, то удалить, если нет то вставить*/

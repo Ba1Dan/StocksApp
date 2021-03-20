@@ -14,5 +14,12 @@ data class Stock(
     val percentDelta: Double = 1.0,
     val priceDelta: Double,
     var isFavourite: Boolean = false
-)
+) : StockResponse()
+
+data class Suggestion(
+    val name: String,
+    val stocks: List<StockTitle>
+) : StockResponse()
+
+sealed class StockResponse
 
