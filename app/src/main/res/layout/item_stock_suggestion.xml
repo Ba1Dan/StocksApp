@@ -15,13 +15,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Apple"
+        android:fontFamily="@font/montserrat"
         android:layout_marginRight="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginBottom="12dp"
         android:layout_marginTop="12dp"
         android:textColor="#000000"
-        android:textSize="12sp"
-        android:textStyle="bold"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.cardview.widget.CardView>

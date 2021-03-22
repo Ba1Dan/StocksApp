@@ -18,7 +18,7 @@ class FavouriteEntity(
     var isFavourite: Boolean
 )
 
-fun convert(favouriteStock: FavouriteEntity): Stock {
+fun convertToStock(favouriteStock: FavouriteEntity): Stock {
     return Stock(
         currency = favouriteStock.currency,
         name = favouriteStock.name,
@@ -28,6 +28,19 @@ fun convert(favouriteStock: FavouriteEntity): Stock {
         percentDelta = favouriteStock.percentDelta,
         isFavourite = favouriteStock.isFavourite,
         priceDelta = favouriteStock.priceDelta
+    )
+}
+
+fun convertToFavourite(stock: Stock): FavouriteEntity {
+    return FavouriteEntity(
+        currency = stock.currency,
+        name = stock.name,
+        ticker = stock.ticker,
+        logo = stock.logo,
+        currentPrice = stock.currentPrice,
+        percentDelta = stock.percentDelta,
+        isFavourite = stock.isFavourite,
+        priceDelta = stock.priceDelta
     )
 }
 

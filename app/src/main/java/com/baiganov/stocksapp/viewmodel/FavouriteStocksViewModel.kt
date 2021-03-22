@@ -33,7 +33,7 @@ class FavouriteStocksViewModel(private val db: FavouriteStockDao) : ViewModel() 
 
     fun getData() {
         viewModelScope.launch(Dispatchers.IO){
-            _data.postValue(db.getData())
+            _data.postValue(db.getStocks())
         }
     }
     private fun deleteAll() {

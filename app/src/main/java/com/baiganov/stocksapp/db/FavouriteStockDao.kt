@@ -9,7 +9,7 @@ import com.baiganov.stocksapp.data.entity.StockEntity
 interface FavouriteStockDao {
 
     @Query("SELECT * FROM favourite_stocks")
-    suspend fun getData(): List<FavouriteEntity>
+    suspend fun getStocks(): List<FavouriteEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(stock: FavouriteEntity)
@@ -19,4 +19,7 @@ interface FavouriteStockDao {
 
     @Query("DELETE FROM favourite_stocks")
     suspend fun deleteAll()
+
+    @Query("SELECT name FROM favourite_stocks")
+    suspend fun getNames(): List<String>
 }

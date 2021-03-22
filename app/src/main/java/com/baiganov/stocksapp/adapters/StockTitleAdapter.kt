@@ -1,20 +1,24 @@
 package com.baiganov.stocksapp.adapters
 
-import android.text.Layout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.baiganov.stocksapp.R
-import com.baiganov.stocksapp.data.model.StockTitle
 
-class StockTitleAdapter : RecyclerView.Adapter<StockTitleAdapter.StockTitleViewHolder>() {
+class StockTitleAdapter(
+    private val clickListener: ClickListener
+) : RecyclerView.Adapter<StockTitleAdapter.StockTitleViewHolder>() {
 
-    private var stocks: List<StockTitle> = listOf()
+    private var stocks: List<String> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StockTitleViewHolder {
-        return StockTitleViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_stock_suggestion, parent, false))
+        return StockTitleViewHolder(
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_stock_suggestion, parent, false),
+            clickListener
+        )
     }
 
     override fun onBindViewHolder(holder: StockTitleViewHolder, position: Int) {
@@ -25,17 +29,20 @@ class StockTitleAdapter : RecyclerView.Adapter<StockTitleAdapter.StockTitleViewH
         return stocks.size
     }
 
-    fun setData(newData: List<StockTitle>) {
+    fun setData(newData: List<String>) {
         stocks = newData
         notifyDataSetChanged()
     }
 
-    class StockTitleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class StockTitleViewHolder(itemView: View, private val clickListener: ClickListener) : RecyclerView.ViewHolder(itemView) {
 
         private val tvTitle: TextView = itemView.findViewById(R.id.tv_title_stock_suggestion)
 
-        fun bind(data: StockTitle) {
-            tvTitle.text = data.title
+        fun bind(name: String) {
+            tvTitle.text = name
+            tvTitle.setOnClickListener {
+                clickListener.onClickTitleStock(name)
+            }
         }
     }
 }

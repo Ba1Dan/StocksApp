@@ -2,7 +2,10 @@ package com.baiganov.stocksapp.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.serialization.Serializable
 
+
+@Serializable
 @Entity(tableName = "list_stocks")
 data class Stock(
     val currency: String,
@@ -18,7 +21,7 @@ data class Stock(
 
 data class Suggestion(
     val name: String,
-    val stocks: List<StockTitle>
+    val stocks: List<String>
 ) : StockResponse()
 
 sealed class StockResponse

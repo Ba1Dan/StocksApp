@@ -7,27 +7,27 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class StockInfo(
         @SerialName("country")
-        val country: String,
+        val country: String = "",
         @SerialName("currency")
-        val currency: String,
+        val currency: String = "",
         @SerialName("exchange")
-        val exchange: String,
+        val exchange: String = "",
         @SerialName("ipo")
-        val ipo: String,
+        val ipo: String = "",
         @SerialName("marketCapitalization")
-        val marketCapitalization: Float,
+        val marketCapitalization: Float = 0F,
         @SerialName("name")
-        val name: String,
+        val name: String = "",
         @SerialName("phone")
-        val phone: String,
+        val phone: String = "",
         @SerialName("shareOutstanding")
-        val shareOutstanding: Float,
+        val shareOutstanding: Float = 0F,
         @SerialName("ticker")
-        val ticker: String,
+        val ticker: String = "",
         @SerialName("weburl")
-        val webUrl: String,
+        val webUrl: String = "",
         @SerialName("logo")
-        val logo: String,
+        val logo: String = "",
         @SerialName("finnhubIndustry")
-        val industry: String
+        val industry: String = ""
 )

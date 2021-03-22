@@ -9,11 +9,13 @@ interface StocksRepository {
 
     suspend fun getStocks(): List<Stock>
 
-    suspend fun updateDate(): List<Stock>
+    suspend fun updateDate(count: Int): List<Stock>
 
     suspend fun getStockInfo(ticker: String): StockInfo
 
     suspend fun getStockPrice(ticker: String): StockPrice
 
-    fun searchDatabase(searchQuery: String): Flow<List<Stock>>
+    suspend fun updateStock(stock: Stock)
+
+    suspend fun getFavourite(): List<Stock>
 }

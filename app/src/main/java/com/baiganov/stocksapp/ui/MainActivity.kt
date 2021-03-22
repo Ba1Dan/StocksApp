@@ -1,37 +1,29 @@
-package com.baiganov.stocksapp
+package com.baiganov.stocksapp.ui
 
-import android.app.SearchManager
 import android.content.Intent
 import android.os.Bundle
-import android.provider.SearchRecentSuggestions
-import android.util.Log
 import android.view.View
+import android.widget.AbsListView
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
-import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
-import androidx.core.view.children
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.ViewPager2
+import com.baiganov.stocksapp.R
+import com.baiganov.stocksapp.adapters.ClickListener
 import com.baiganov.stocksapp.adapters.StocksAdapter
+import com.baiganov.stocksapp.adapters.VerticalSpaceItemDecoration
 import com.baiganov.stocksapp.api.ApiFactory
 import com.baiganov.stocksapp.data.entity.FavouriteEntity
-import com.baiganov.stocksapp.data.entity.convert
-import com.baiganov.stocksapp.data.model.Stock
 import com.baiganov.stocksapp.db.StocksDatabase
+import com.baiganov.stocksapp.repositories.FavouriteRepositoryImpl
 import com.baiganov.stocksapp.repositories.StocksRepositoryImpl
-import com.baiganov.stocksapp.ui.PagerViewAdapter
-import com.baiganov.stocksapp.ui.SearchActivity
-import com.baiganov.stocksapp.viewmodel.MainViewFactory
+import com.baiganov.stocksapp.viewmodel.MainFactory
 import com.baiganov.stocksapp.viewmodel.MainViewModel
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
-import org.w3c.dom.Text
 
 class MainActivity : AppCompatActivity() {
 
@@ -49,8 +41,18 @@ class MainActivity : AppCompatActivity() {
         initView()
         setupRecyclerView()
         val database = StocksDatabase.create(applicationContext)
-        mainViewModel = ViewModelProvider(this, MainViewFactory(StocksRepositoryImpl(ApiFactory.apiService, database.stockDao), database.favouriteStockDao)).get(MainViewModel::class.java)
-        if (savedInstanceState == null) {
+        mainViewModel = ViewModelProvider(
+            this,
+            MainFactory(
+                StocksRepositoryImpl(
+                    ApiFactory.apiService,
+                    database.stockDao,
+                    database.favouriteStockDao,
+                    applicationContext
+                ), FavouriteRepositoryImpl(database.favouriteStockDao)
+            )
+        ).get(MainViewModel::class.java)
+        /*if (savedInstanceState == null) {
             setupViewModel()
         } else {
             pbStocks.visibility = View.GONE
@@ -58,20 +60,17 @@ class MainActivity : AppCompatActivity() {
             mainViewModel.data.observe(this, {
                 rvAdapter.setData(it)
             })
-        }
+        }*/
+        setupViewModel()
         setupSearchView()
         tvStocks.setOnClickListener {
             updateStocks()
-
         }
-
         tvFavourite.setOnClickListener {
             updateFavourite()
-
         }
-    }
 
-    private val clickListener = StocksAdapter.ItemClickListener { favourite, stock -> onClick(favourite = favourite, stock = stock) }
+    }
 
     override fun onResume() {
         super.onResume()
@@ -94,13 +93,8 @@ class MainActivity : AppCompatActivity() {
         tvFavourite.setTextColor(ContextCompat.getColor(applicationContext, R.color.black))
         tvStocks.textSize = 24F
         tvStocks.setTextColor(ContextCompat.getColor(applicationContext, R.color.grey))
-        val favouriteStocks= mainViewModel.getDataFavourite()
-        val stocks = favouriteStocks.map {
-            convert(it)
-        }
-        rvAdapter.setData(stocks)
+        mainViewModel.getDataFavourite()
     }
-
 
     private fun initView() {
         pbStocks = findViewById(R.id.pb_main)
@@ -111,9 +105,59 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        rvAdapter = StocksAdapter(clickListener)
+        rvAdapter = StocksAdapter(object : ClickListener {
+            override fun onClickStar(stock: FavouriteEntity) {
+                if (stock.isFavourite) {
+                    mainViewModel.insert(stock)
+                } else {
+                    mainViewModel.delete(stock, tvStocks.textSize == 92.399994F)
+                }
+            }
+
+            override fun onClickItem(name: String) {
+                Toast.makeText(applicationContext, name, Toast.LENGTH_LONG).show()
+            }
+
+            override fun onClickTitleStock(name: String) {
+            }
+        })
         rvMain.adapter = rvAdapter
         rvMain.layoutManager = LinearLayoutManager(this)
+        rvMain.addItemDecoration(VerticalSpaceItemDecoration(8))
+        val isLoading = false
+        val isLastPage = false
+        var isScrolling = false
+        rvMain.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
+                val visibleItemCount = layoutManager.childCount
+                val totalItemCount = layoutManager.itemCount
+
+                val isNotLoadingAndNotLastPage = !isLoading && !isLastPage
+                val isAtLastItem = firstVisibleItemPosition + visibleItemCount >= totalItemCount
+                val isNotAtBeginning = firstVisibleItemPosition >= 0
+                val isTotalMoreThanVisible = totalItemCount >= 25
+                val shouldPaginate =
+                    isNotLoadingAndNotLastPage && isAtLastItem && isNotAtBeginning &&
+                            isTotalMoreThanVisible && isScrolling
+                if (shouldPaginate) {
+                    mainViewModel.load()
+                    isScrolling = false
+                } else {
+                    //rvBreakingNews.setPadding(0, 0, 0, 0)
+                }
+            }
+
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+                    isScrolling = true
+                }
+            }
+        })
     }
 
     private fun setupViewModel() {
@@ -131,9 +175,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     private fun setupSearchView() {
-        searchView.setOnQueryTextFocusChangeListener(object: View.OnFocusChangeListener {
+        searchView.setOnQueryTextFocusChangeListener(object : View.OnFocusChangeListener {
             override fun onFocusChange(p0: View?, p1: Boolean) {
                 if (p1) {
                     val intent = Intent(this@MainActivity, SearchActivity::class.java)
@@ -141,16 +184,5 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         })
-    }
-
-    /*Если уже в избранном, то удалить, если нет то вставить*/
-    private fun onClick(favourite: Boolean, stock: FavouriteEntity) {
-        if (favourite) {
-            stock.isFavourite = false
-            mainViewModel.delete(stock)
-        } else {
-            stock.isFavourite = true
-            mainViewModel.insert(stock)
-        }
     }
 }
