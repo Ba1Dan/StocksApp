@@ -7,7 +7,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface SearchRepository {
 
-    fun searchDatabase(searchQuery: String): Flow<List<Stock>>
+    suspend fun searchDatabase(searchQuery: String): List<Stock>
+
+    suspend fun fullSearchDatabase(searchQuery: String): List<Stock>
 
     suspend fun updateStock(stock: Stock)
 

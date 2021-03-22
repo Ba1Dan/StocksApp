@@ -24,5 +24,10 @@ data class Suggestion(
     val stocks: List<String>
 ) : StockResponse()
 
+data class Section(
+    val name: String,
+    val stocks: List<Stock>
+) : StockResponse()
+
 sealed class StockResponse
 

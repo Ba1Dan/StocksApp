@@ -120,6 +120,9 @@ class MainActivity : AppCompatActivity() {
 
             override fun onClickTitleStock(name: String) {
             }
+
+            override fun onClickShow() {
+            }
         })
         rvMain.adapter = rvAdapter
         rvMain.layoutManager = LinearLayoutManager(this)

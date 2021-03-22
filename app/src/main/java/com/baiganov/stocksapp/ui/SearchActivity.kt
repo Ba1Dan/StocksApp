@@ -2,6 +2,7 @@ package com.baiganov.stocksapp.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
@@ -15,6 +16,7 @@ import com.baiganov.stocksapp.adapters.StocksAdapter
 import com.baiganov.stocksapp.adapters.VerticalSpaceItemDecoration
 import com.baiganov.stocksapp.data.entity.FavouriteEntity
 import com.baiganov.stocksapp.data.entity.SuggestionEntity
+import com.baiganov.stocksapp.data.model.Section
 import com.baiganov.stocksapp.data.model.Suggestion
 import com.baiganov.stocksapp.db.StocksDatabase
 import com.baiganov.stocksapp.repositories.FavouriteRepositoryImpl
@@ -52,7 +54,7 @@ class SearchActivity : AppCompatActivity() {
     private fun initView() {
         rvSearch = findViewById(R.id.rv_search)
         searchView = findViewById(R.id.sv_active)
-        btnBack = searchView.findViewById<ImageView>(androidx.appcompat.R.id.search_mag_icon)
+        btnBack = searchView.findViewById(androidx.appcompat.R.id.search_mag_icon)
     }
 
     private fun setupSearchView() {
@@ -112,9 +114,18 @@ class SearchActivity : AppCompatActivity() {
                 Toast.makeText(applicationContext, name, Toast.LENGTH_LONG).show()
             }
 
-
             override fun onClickTitleStock(name: String) {
                 searchView.setQuery(name, true)
+            }
+
+            override fun onClickShow() {
+                val query = searchView.query.toString()
+                val searchQuery = "$query%"
+                searchView.clearFocus()
+                searchViewModel.fullSearch(searchQuery)
+                searchViewModel.resultSearch.observe(this@SearchActivity, {
+                    rvAdapter.setData(it)
+                })
             }
         })
         rvSearch.adapter = rvAdapter
@@ -122,36 +133,30 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun setupSuggestions() {
-        val popular: MutableList<String> = ArrayList()
-        popular.add("Apple")
-        popular.add("Тинькофф")
-        popular.add("Яндекс")
-        popular.add("Mail.ru")
-        popular.add("Bank of America")
-        popular.add("Tesla")
-        popular.add("Virgin")
-        popular.add("Amazon")
-        popular.add("Google")
-        popular.add("Microsoft")
-        popular.add("Mastercard")
-        popular.add("Facebook")
 
-        val data: MutableList<Suggestion> = ArrayList()
+        val data = mutableListOf(Suggestion(POPULAR, listOf("Apple", "First Solar", "Yandex", "Alibaba", "Tesla", "Amazon", "Google", "Microsoft", "Mastercard", "Facebook")))
         searchViewModel.recentQueries.observe(this, {
             if (it.isNotEmpty()) {
-                data.add(Suggestion("You've searched for this",it.reversed()))
+                data.add(Suggestion(RECENT, it.reversed()))
             }
         })
-        data.add(Suggestion("Popular requests", popular))
-
         rvSearch.addItemDecoration(VerticalSpaceItemDecoration(8))
         rvAdapter.setData(data)
     }
 
     private fun searchDatabase(query: String) {
         val searchQuery = "$query%"
-        searchViewModel.search(searchQuery).observe(this, {
-            rvAdapter.setData(it)
+        searchViewModel.search(searchQuery)
+        searchViewModel.resultSearch.observe(this, {
+            rvAdapter.setData(listOf(Section(STOCKS, it)))
         })
+    }
+
+    companion object {
+        private const val POPULAR = "Popular requests"
+        private const val RECENT = "You've searched for this"
+        private const val STOCKS = "Stocks"
+        private const val BONDS = "Bonds"
+        private const val FOUNDATIONS = "Foundations"
     }
 }

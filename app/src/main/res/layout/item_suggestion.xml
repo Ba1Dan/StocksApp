@@ -14,7 +14,6 @@
         android:fontFamily="@font/montserrat"
         android:layout_marginStart="4dp"
         android:textSize="20sp"
-        android:textStyle="bold"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

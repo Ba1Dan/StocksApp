@@ -33,6 +33,7 @@
         <!--To Change SearchView Text & Mic-->
         <item name="android:editTextColor">@android:color/black</item>
         <item name="android:textColorHint">@android:color/black</item>
+        <item name="android:fontFamily">@font/montserrat</item>
         <item name="android:textColorPrimary">@android:color/black</item>
         <item name="autoCompleteTextViewStyle">@style/cursorColor</item>
     </style>

@@ -1,10 +1,7 @@
 package com.baiganov.stocksapp.viewmodel
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.baiganov.stocksapp.data.entity.FavouriteEntity
 import com.baiganov.stocksapp.data.entity.SuggestionEntity
 import com.baiganov.stocksapp.data.entity.convertToStock
@@ -23,9 +20,14 @@ class SearchViewModel(
 ) : ViewModel() {
 
     val recentQueries:LiveData<List<String>> = searchRepository.getSuggestions().asLiveData()
+    private val _resultSearch = MutableLiveData<List<Stock>>()
 
-    fun search(searchQuery: String): LiveData<List<Stock>> {
-        return searchRepository.searchDatabase(searchQuery).asLiveData()
+    val resultSearch: LiveData<List<Stock>> = _resultSearch
+
+    fun search(searchQuery: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _resultSearch.postValue(searchRepository.searchDatabase(searchQuery))
+        }
     }
 
     fun insert(stock: FavouriteEntity) {
@@ -45,6 +47,12 @@ class SearchViewModel(
     fun save(suggestion: SuggestionEntity) {
         viewModelScope.launch(Dispatchers.IO) {
             searchRepository.insert(suggestion)
+        }
+    }
+
+    fun fullSearch(searchQuery: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _resultSearch.postValue(searchRepository.fullSearchDatabase(searchQuery))
         }
     }
 }

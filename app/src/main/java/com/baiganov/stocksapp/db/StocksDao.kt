@@ -20,5 +20,8 @@ interface StocksDao {
     suspend fun deleteAll()
 
     @Query("SELECT * FROM list_stocks WHERE ticker LIKE :searchQuery OR name LIKE :searchQuery")
-    fun searchDatabase(searchQuery: String): Flow<List<Stock>>
+    suspend fun fullSearchDatabase(searchQuery: String): List<Stock>
+
+    @Query("SELECT * FROM list_stocks WHERE ticker LIKE :searchQuery OR name LIKE :searchQuery LIMIT 3")
+    suspend fun searchDatabase(searchQuery: String): List<Stock>
 }

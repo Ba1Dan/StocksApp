@@ -2,7 +2,6 @@ package com.baiganov.stocksapp.repositories
 
 import com.baiganov.stocksapp.data.entity.SuggestionEntity
 import com.baiganov.stocksapp.data.model.Stock
-import com.baiganov.stocksapp.data.model.Suggestion
 import com.baiganov.stocksapp.db.StocksDao
 import com.baiganov.stocksapp.db.SuggestionDao
 import kotlinx.coroutines.flow.Flow
@@ -12,7 +11,7 @@ class SearchRepositoryImpl(
     private val suggestionDao: SuggestionDao
 ) : SearchRepository {
 
-    override fun searchDatabase(searchQuery: String): Flow<List<Stock>> {
+    override suspend fun searchDatabase(searchQuery: String): List<Stock> {
         return stocksDao.searchDatabase(searchQuery)
     }
 
@@ -26,5 +25,9 @@ class SearchRepositoryImpl(
 
     override fun getSuggestions(): Flow<List<String>> {
         return suggestionDao.getData()
+    }
+
+    override suspend fun fullSearchDatabase(searchQuery: String): List<Stock> {
+        return stocksDao.fullSearchDatabase(searchQuery)
     }
 }
