@@ -27,7 +27,7 @@
                 android:id="@+id/sv_main"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/custom_input_edittext"
+                android:background="@drawable/custom_searchview"
                 android:focusable="false"
                 app:iconifiedByDefault="false"
                 app:queryHint="Find company or ticker"

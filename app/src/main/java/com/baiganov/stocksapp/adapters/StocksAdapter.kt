@@ -1,7 +1,6 @@
 package com.baiganov.stocksapp.adapters
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -79,7 +78,7 @@ class StocksAdapter(
 
         private val cvViewHolder: CardView = itemView.findViewById(R.id.cv_view_holder)
         private val tvTitleTicker: TextView = itemView.findViewById(R.id.tv_title_ticker)
-        private val tvTitleStock: TextView = itemView.findViewById(R.id.tv_title_stock)
+        private val tvTitleStock: TextView = itemView.findViewById(R.id.tv_ticker_stock)
         private val tvDeltaDay: TextView = itemView.findViewById(R.id.tv_day_delta)
         private val ivLogoStock: ImageView = itemView.findViewById(R.id.iv_logo_stock)
         private val tvCurrentPrice: TextView = itemView.findViewById(R.id.tv_current_price)
@@ -94,6 +93,10 @@ class StocksAdapter(
                         R.color.light_item
                     )
                 )
+                tvDeltaDay.setBackgroundColor(ContextCompat.getColor(
+                    itemView.context,
+                    R.color.light_item
+                ))
             } else {
                 cvViewHolder.setCardBackgroundColor(
                     ContextCompat.getColor(
@@ -101,25 +104,20 @@ class StocksAdapter(
                         R.color.white
                     )
                 )
+                tvDeltaDay.setBackgroundColor(ContextCompat.getColor(
+                    itemView.context,
+                    R.color.white
+                ))
             }
 
             if (data.priceDelta >= 0) {
                 tvDeltaDay.text = plus + sign +
-                        String.format(
-                            "%.2f",
-                            abs(data.priceDelta)
-                        ) + "(" + String.format(
-                    "%.2f",
-                    data.percentDelta
-                ) + percent + ")"
+                        String.format("%.2f", abs(data.priceDelta)) +
+                        "(" + String.format("%.2f", data.percentDelta) +
+                        percent + ")"
             } else {
-                tvDeltaDay.text = minus + sign + String.format(
-                    "%.2f",
-                    abs(data.priceDelta)
-                ) + "(" + String.format(
-                    "%.2f",
-                    data.percentDelta
-                ) + percent + ")"
+                tvDeltaDay.text = minus + sign + String.format("%.2f", abs(data.priceDelta)) +
+                        "(" + String.format("%.2f", data.percentDelta) + percent + ")"
                 tvDeltaDay.setTextColor(ContextCompat.getColor(itemView.context, R.color.red))
             }
             tvTitleTicker.text = data.ticker
@@ -151,7 +149,7 @@ class StocksAdapter(
             }
 
             itemView.setOnClickListener {
-                clickListener.onClickItem(data.name)
+                clickListener.onClickItem(data)
             }
         }
     }
@@ -206,7 +204,7 @@ class StocksAdapter(
 
 interface ClickListener {
     fun onClickStar(stock: FavouriteEntity)
-    fun onClickItem(name: String)
+    fun onClickItem(stock: Stock)
     fun onClickTitleStock(name: String)
     fun onClickShow()
 }

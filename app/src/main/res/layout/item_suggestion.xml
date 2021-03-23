@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:layout_marginBottom="28dp"
     android:layout_height="wrap_content">
 
     <TextView
@@ -14,6 +15,7 @@
         android:fontFamily="@font/montserrat"
         android:layout_marginStart="4dp"
         android:textSize="20sp"
+        android:textStyle="bold"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

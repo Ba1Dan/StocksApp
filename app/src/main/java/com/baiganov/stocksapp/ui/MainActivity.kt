@@ -19,6 +19,7 @@ import com.baiganov.stocksapp.adapters.StocksAdapter
 import com.baiganov.stocksapp.adapters.VerticalSpaceItemDecoration
 import com.baiganov.stocksapp.api.ApiFactory
 import com.baiganov.stocksapp.data.entity.FavouriteEntity
+import com.baiganov.stocksapp.data.model.Stock
 import com.baiganov.stocksapp.db.StocksDatabase
 import com.baiganov.stocksapp.repositories.FavouriteRepositoryImpl
 import com.baiganov.stocksapp.repositories.StocksRepositoryImpl
@@ -114,8 +115,10 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
-            override fun onClickItem(name: String) {
-                Toast.makeText(applicationContext, name, Toast.LENGTH_LONG).show()
+            override fun onClickItem(stock: Stock) {
+                val intent = Intent(this@MainActivity, DetailActivity::class.java)
+                intent.putExtra("stock", stock)
+                startActivity(intent)
             }
 
             override fun onClickTitleStock(name: String) {

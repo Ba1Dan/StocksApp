@@ -17,6 +17,7 @@ import com.baiganov.stocksapp.adapters.VerticalSpaceItemDecoration
 import com.baiganov.stocksapp.data.entity.FavouriteEntity
 import com.baiganov.stocksapp.data.entity.SuggestionEntity
 import com.baiganov.stocksapp.data.model.Section
+import com.baiganov.stocksapp.data.model.Stock
 import com.baiganov.stocksapp.data.model.Suggestion
 import com.baiganov.stocksapp.db.StocksDatabase
 import com.baiganov.stocksapp.repositories.FavouriteRepositoryImpl
@@ -31,7 +32,6 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var searchView: SearchView
     private lateinit var btnBack: ImageView
     private lateinit var searchViewModel: SearchViewModel
-    private var emptySearchView: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,9 +63,9 @@ class SearchActivity : AppCompatActivity() {
         searchView.setOnQueryTextFocusChangeListener(object: View.OnFocusChangeListener {
 
             override fun onFocusChange(p0: View?, p1: Boolean) {
-                if (p1 && emptySearchView) {
+                if (p1 && searchView.query.toString().isEmpty()) {
                     setupSuggestions()
-                } else if (emptySearchView){
+                } else if (searchView.query.toString().isEmpty()){
                     finish()
                 }
             }
@@ -77,6 +77,7 @@ class SearchActivity : AppCompatActivity() {
                 if (text != null) {
                     searchViewModel.save(SuggestionEntity(text))
                 }
+
                 searchView.clearFocus()
                 return true
             }
@@ -87,10 +88,8 @@ class SearchActivity : AppCompatActivity() {
                 }
                 if (query != null) {
                     if (query.isNotEmpty()) {
-                        emptySearchView = false
                         searchDatabase(query)
                     } else {
-                        emptySearchView = true
                         setupSuggestions()
                     }
                 }
@@ -110,8 +109,8 @@ class SearchActivity : AppCompatActivity() {
                 }
             }
 
-            override fun onClickItem(name: String) {
-                Toast.makeText(applicationContext, name, Toast.LENGTH_LONG).show()
+            override fun onClickItem(stock: Stock) {
+                Toast.makeText(applicationContext, stock.name, Toast.LENGTH_LONG).show()
             }
 
             override fun onClickTitleStock(name: String) {
@@ -133,14 +132,12 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun setupSuggestions() {
-
         val data = mutableListOf(Suggestion(POPULAR, listOf("Apple", "First Solar", "Yandex", "Alibaba", "Tesla", "Amazon", "Google", "Microsoft", "Mastercard", "Facebook")))
         searchViewModel.recentQueries.observe(this, {
             if (it.isNotEmpty()) {
                 data.add(Suggestion(RECENT, it.reversed()))
             }
         })
-        rvSearch.addItemDecoration(VerticalSpaceItemDecoration(8))
         rvAdapter.setData(data)
     }
 

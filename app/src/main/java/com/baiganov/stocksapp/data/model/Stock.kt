@@ -29,5 +29,5 @@ data class Section(
     val stocks: List<Stock>
 ) : StockResponse()
 
-sealed class StockResponse
+sealed class StockResponse : java.io.Serializable
 

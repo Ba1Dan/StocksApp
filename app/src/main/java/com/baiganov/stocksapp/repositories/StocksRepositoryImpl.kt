@@ -40,7 +40,7 @@ class StocksRepositoryImpl(
             result.add(stocks[i])
         }
         stocksDao.deleteAll()
-        stocksDao.insertStocks(stocks)
+        //stocksDao.insertStocks(stocks)
         return result
     }
 
