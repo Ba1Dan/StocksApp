@@ -5,7 +5,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.baiganov.stocksapp.data.model.Stock
-import com.baiganov.stocksapp.ui.*
+import com.baiganov.stocksapp.ui.fragments.*
 
 class PagerViewAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle, private val stock: Stock) : FragmentStateAdapter(fragmentManager, lifecycle) {
 
@@ -19,7 +19,8 @@ class PagerViewAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle, p
             1 -> SummaryFragment()
             2 -> NewsFragment()
             3 -> ForecastsFragment()
-            else -> IdeasFragment()
+            4 -> IdeasFragment()
+            else -> EventsFragment()
         }
     }
 }

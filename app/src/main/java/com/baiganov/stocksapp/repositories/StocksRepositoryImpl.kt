@@ -15,18 +15,11 @@ import kotlin.math.abs
 class StocksRepositoryImpl(
     private val apiService: ApiService,
     private val stocksDao: StocksDao,
-    private val favouriteStockDao: FavouriteStockDao,
     private val context: Context
 ) : StocksRepository {
 
     override suspend fun getStocks(): List<Stock> {
         return stocksDao.getStocks()
-    }
-
-    override suspend fun getFavourite(): List<Stock> {
-        return favouriteStockDao.getStocks().map {
-            convertToStock(it)
-        }
     }
 
     override suspend fun updateStock(stock: Stock) {
@@ -40,7 +33,7 @@ class StocksRepositoryImpl(
             result.add(stocks[i])
         }
         stocksDao.deleteAll()
-        //stocksDao.insertStocks(stocks)
+        stocksDao.insertStocks(stocks)
         return result
     }
 

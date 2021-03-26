@@ -16,6 +16,4 @@ interface StocksRepository {
     suspend fun getStockPrice(ticker: String): StockPrice
 
     suspend fun updateStock(stock: Stock)
-
-    suspend fun getFavourite(): List<Stock>
 }

@@ -2,6 +2,7 @@ package com.baiganov.stocksapp.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AbsListView
 import android.widget.ProgressBar
@@ -25,6 +26,7 @@ import com.baiganov.stocksapp.repositories.FavouriteRepositoryImpl
 import com.baiganov.stocksapp.repositories.StocksRepositoryImpl
 import com.baiganov.stocksapp.viewmodel.MainFactory
 import com.baiganov.stocksapp.viewmodel.MainViewModel
+import org.w3c.dom.Text
 
 class MainActivity : AppCompatActivity() {
 
@@ -35,6 +37,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var rvMain: RecyclerView
     private lateinit var tvStocks: TextView
     private lateinit var tvFavourite: TextView
+    private lateinit var tvNotificationFavourite: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +51,6 @@ class MainActivity : AppCompatActivity() {
                 StocksRepositoryImpl(
                     ApiFactory.apiService,
                     database.stockDao,
-                    database.favouriteStockDao,
                     applicationContext
                 ), FavouriteRepositoryImpl(database.favouriteStockDao)
             )
@@ -76,6 +78,22 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         searchView.clearFocus()
+        Log.d("DEBUG", "onResume")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d("DEBUG", "onPause")
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d("DEBUG", "onStart сюда")
+        if (tvStocks.currentTextColor == ContextCompat.getColor(applicationContext, R.color.black)) {
+            mainViewModel.getData()
+        } else {
+            mainViewModel.getDataFavourite()
+        }
     }
 
     private fun updateStocks() {
@@ -103,6 +121,7 @@ class MainActivity : AppCompatActivity() {
         searchView = findViewById(R.id.sv_main)
         tvStocks = findViewById(R.id.tv_stocks)
         tvFavourite = findViewById(R.id.tv_favourite)
+        tvNotificationFavourite = findViewById(R.id.tv_notification_favourite)
     }
 
     private fun setupRecyclerView() {
@@ -111,7 +130,7 @@ class MainActivity : AppCompatActivity() {
                 if (stock.isFavourite) {
                     mainViewModel.insert(stock)
                 } else {
-                    mainViewModel.delete(stock, tvStocks.textSize == 92.399994F)
+                    mainViewModel.delete(stock, tvStocks.currentTextColor == ContextCompat.getColor(applicationContext, R.color.black))
                 }
             }
 

@@ -1,10 +1,12 @@
 package com.baiganov.stocksapp.ui
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
@@ -32,6 +34,7 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var searchView: SearchView
     private lateinit var btnBack: ImageView
     private lateinit var searchViewModel: SearchViewModel
+    private lateinit var tvNotificationSearch: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +58,7 @@ class SearchActivity : AppCompatActivity() {
         rvSearch = findViewById(R.id.rv_search)
         searchView = findViewById(R.id.sv_active)
         btnBack = searchView.findViewById(androidx.appcompat.R.id.search_mag_icon)
+        tvNotificationSearch =findViewById(R.id.tv_notification_search)
     }
 
     private fun setupSearchView() {
@@ -110,7 +114,9 @@ class SearchActivity : AppCompatActivity() {
             }
 
             override fun onClickItem(stock: Stock) {
-                Toast.makeText(applicationContext, stock.name, Toast.LENGTH_LONG).show()
+                val intent = Intent(this@SearchActivity, DetailActivity::class.java)
+                intent.putExtra("stock", stock)
+                startActivity(intent)
             }
 
             override fun onClickTitleStock(name: String) {
@@ -145,7 +151,13 @@ class SearchActivity : AppCompatActivity() {
         val searchQuery = "$query%"
         searchViewModel.search(searchQuery)
         searchViewModel.resultSearch.observe(this, {
-            rvAdapter.setData(listOf(Section(STOCKS, it)))
+            if (it.isNotEmpty()) {
+                rvAdapter.setData(listOf(Section(STOCKS, it)))
+                tvNotificationSearch.visibility = View.GONE
+            } else {
+                rvAdapter.setData(listOf<Stock>())
+                tvNotificationSearch.visibility = View.VISIBLE
+            }
         })
     }
 

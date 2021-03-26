@@ -39,6 +39,7 @@ class MainViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             favouriteRepository.deleteStock(stock)
             stocksRepository.updateStock(convertToStock(stock))
+            Log.d("TESTT", tvStocks.toString())
             if (tvStocks) {
                 _data.postValue(stocksRepository.getStocks())
             } else {
@@ -88,6 +89,7 @@ class MainViewModel(
                     stocksRepository.updateStock(it)
                 }
             }
+            Log.d("DEBUG", "viewmodel")
             _data.postValue(data)
         }
     }

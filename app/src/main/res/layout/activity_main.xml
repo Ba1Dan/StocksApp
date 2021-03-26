@@ -86,5 +86,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"/>
+
+        <TextView
+            android:id="@+id/tv_notification_favourite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Данных нет"
+            android:textColor="@color/grey"
+            android:textSize="16sp"
+            android:visibility="gone"
+            android:fontFamily="@font/montserrat"
+            android:layout_gravity="center"/>
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

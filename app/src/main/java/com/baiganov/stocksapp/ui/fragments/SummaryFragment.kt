@@ -1,4 +1,4 @@
-package com.baiganov.stocksapp.ui
+package com.baiganov.stocksapp.ui.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import com.baiganov.stocksapp.R
 
 
-class ForecastsFragment : Fragment() {
+class SummaryFragment : Fragment() {
 
 
     override fun onCreateView(
@@ -16,6 +16,7 @@ class ForecastsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_forecasts, container, false)
+        return inflater.inflate(R.layout.fragment_summary, container, false)
     }
+
 }

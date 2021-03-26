@@ -2,12 +2,23 @@ package com.baiganov.stocksapp.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.baiganov.stocksapp.R
 import com.baiganov.stocksapp.adapters.PagerViewAdapter
+import com.baiganov.stocksapp.data.entity.convertToFavourite
 import com.baiganov.stocksapp.data.model.Stock
+import com.baiganov.stocksapp.db.StocksDatabase
+import com.baiganov.stocksapp.repositories.DetailRepositoryImpl
+import com.baiganov.stocksapp.repositories.FavouriteRepositoryImpl
+import com.baiganov.stocksapp.viewmodel.DetailFactory
+import com.baiganov.stocksapp.viewmodel.DetailViewModel
+import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -16,25 +27,52 @@ class DetailActivity : AppCompatActivity() {
     private lateinit var viewPager: ViewPager2
     private lateinit var tablayout: TabLayout
     private lateinit var btnBack: ImageView
-    private lateinit var stock: Stock
+    private lateinit var ivFavourite: ImageView
+    private lateinit var tvName: TextView
+    private lateinit var tvTicker: TextView
+    private lateinit var detailViewModel: DetailViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
-        val tvName: TextView = findViewById(R.id.tv_name_stock)
-        val tvTicker: TextView = findViewById(R.id.tv_ticker_stock)
+        initView()
+        val database = StocksDatabase.create(applicationContext)
+        detailViewModel = ViewModelProvider(this, DetailFactory(FavouriteRepositoryImpl(database.favouriteStockDao), DetailRepositoryImpl(database.stockDao))).get(DetailViewModel::class.java)
         val argument = intent.extras
         if (argument != null) {
-            stock = argument.getSerializable("stock") as Stock
-            tvName.text = stock.name
-            tvTicker.text = stock.ticker
-
+            val stock = argument.getSerializable("stock") as Stock
+            detailViewModel.getStock(stock.ticker)
         }
+        detailViewModel.data.observe(this, { stock ->
+            //Log.d("DEBUG", stock)
+            if (stock != null) {
+                bind(stock)
+                setupTabLayout(stock)
+                setupClickListener(stock)
+            }
+        })
+    }
+
+    private fun initView() {
+        tvName = findViewById(R.id.tv_name_stock)
+        tvTicker = findViewById(R.id.tv_ticker_stock)
         viewPager = findViewById(R.id.view_pager)
         tablayout = findViewById(R.id.tab_layout)
         btnBack = findViewById(R.id.btn_back)
+        ivFavourite = findViewById(R.id.iv_favourite_detail)
+    }
 
+    private fun bind(stock: Stock) {
+        tvName.text = stock.name
+        tvTicker.text = stock.ticker
+        if (stock.isFavourite) {
+            Glide.with(applicationContext)
+                .load(R.drawable.ic_star_like)
+                .into(ivFavourite)
+        }
+    }
 
+    private fun setupTabLayout(stock: Stock) {
         val adapter = PagerViewAdapter(supportFragmentManager, lifecycle, stock)
         viewPager.adapter = adapter
         TabLayoutMediator(tablayout, viewPager) { tab, position ->
@@ -64,9 +102,27 @@ class DetailActivity : AppCompatActivity() {
                 }
             }
         }.attach()
+    }
 
+    private fun setupClickListener(stock: Stock) {
         btnBack.setOnClickListener {
             finish()
+        }
+        ivFavourite.setOnClickListener {
+            if (stock.isFavourite) {
+                stock.isFavourite = false
+                Glide.with(applicationContext)
+                    .load(R.drawable.ic_star_detail)
+                    .into(ivFavourite)
+                detailViewModel.delete(convertToFavourite(stock))
+            } else {
+                stock.isFavourite = true
+                Glide.with(applicationContext)
+                    .load(R.drawable.ic_star_like)
+                    .into(ivFavourite)
+                detailViewModel.insert(convertToFavourite(stock))
+            }
+
         }
     }
 }
