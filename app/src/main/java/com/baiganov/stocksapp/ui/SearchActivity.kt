@@ -165,7 +165,5 @@ class SearchActivity : AppCompatActivity() {
         private const val POPULAR = "Popular requests"
         private const val RECENT = "You've searched for this"
         private const val STOCKS = "Stocks"
-        private const val BONDS = "Bonds"
-        private const val FOUNDATIONS = "Foundations"
     }
 }

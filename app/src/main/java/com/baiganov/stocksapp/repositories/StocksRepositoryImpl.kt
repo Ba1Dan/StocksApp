@@ -1,19 +1,16 @@
 package com.baiganov.stocksapp.repositories
 
 import android.content.Context
-import com.baiganov.stocksapp.api.ApiService
-import com.baiganov.stocksapp.data.entity.convertToStock
+import com.baiganov.stocksapp.api.ApiServiceFin
 import com.baiganov.stocksapp.data.json.StockInfo
 import com.baiganov.stocksapp.data.json.StockPrice
 import com.baiganov.stocksapp.data.loadStocks
 import com.baiganov.stocksapp.data.model.Stock
-import com.baiganov.stocksapp.db.FavouriteStockDao
 import com.baiganov.stocksapp.db.StocksDao
-import kotlinx.coroutines.flow.Flow
 import kotlin.math.abs
 
 class StocksRepositoryImpl(
-    private val apiService: ApiService,
+    private val apiServiceFin: ApiServiceFin,
     private val stocksDao: StocksDao,
     private val context: Context
 ) : StocksRepository {
@@ -38,11 +35,11 @@ class StocksRepositoryImpl(
     }
 
     override suspend fun getStockInfo(ticker: String): StockInfo {
-        return apiService.getInfoStock(ticker)
+        return apiServiceFin.getInfoStock(ticker)
     }
 
     override suspend fun getStockPrice(ticker: String): StockPrice {
-        return apiService.getInfoPriceStock(ticker)
+        return apiServiceFin.getInfoPriceStock(ticker)
     }
 
     private fun calculatePercent(yesterday: Float, today: Float): Double {

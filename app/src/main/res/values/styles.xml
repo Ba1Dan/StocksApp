@@ -32,7 +32,6 @@
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
-        <!--To Change SearchView Text & Mic-->
         <item name="android:editTextColor">@android:color/black</item>
         <item name="android:textColorHint">@android:color/black</item>
         <item name="android:fontFamily">@font/montserrat</item>
@@ -62,5 +61,321 @@
         <item name="fontFamily">@font/montserrat</item>
         <item name="android:textSize">12sp</item>
         <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="detail_ticker_stock">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/normal_indent</item>
+        <item name="android:fontFamily">@font/montserrat</item>
+        <item name="android:gravity">top</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="detail_name_stock">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:fontFamily">@font/montserrat</item>
+        <item name="android:gravity">top</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="detail_btn_back">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:paddingTop">@dimen/normal_indent</item>
+        <item name="android:paddingEnd">25dp</item>
+        <item name="android:paddingBottom">@dimen/normal_indent</item>
+    </style>
+
+    <style name="detail_btn_favourite">
+        <item name="android:layout_width">60dp</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:layout_marginEnd">@dimen/normal_indent</item>
+        <item name="android:padding">@dimen/normal_indent</item>
+    </style>
+
+    <style name="detail_tab_layout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">20dp</item>
+        <item name="android:layout_marginTop">20dp</item>
+    </style>
+
+    <style name="main_tab_favourite">
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginStart">20sp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/grey</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:fontFamily">@font/montserrat</item>
+    </style>
+
+    <style name="main_tab_stocks">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">32sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily">@font/montserrat</item>
+    </style>
+
+    <style name="main_progress_bar">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
+    <style name="main_recyclerview">
+        <item name="android:layout_marginTop">20sp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="main_search_view">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@drawable/custom_searchview</item>
+        <item name="android:focusable">false</item>
+    </style>
+
+    <style name="main_toolbar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">20dp</item>
+        <item name="android:paddingEnd">@dimen/normal_indent</item>
+    </style>
+
+    <style name="search_notification">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/montserrat</item>
+        <item name="android:textColor">@color/grey</item>
+        <item name="android:visibility">gone</item>
+    </style>
+
+    <style name="search_recyclerview">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_marginStart">@dimen/normal_indent</item>
+        <item name="android:layout_marginTop">@dimen/normal_indent</item>
+        <item name="android:layout_marginEnd">@dimen/normal_indent</item>
+        <item name="android:layout_marginBottom">20dp</item>
+    </style>
+
+    <style name="search_search_view">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/normal_indent</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:layout_marginEnd">@dimen/normal_indent</item>
+        <item name="android:background">@drawable/custom_active_searchview</item>
+        <item name="android:focusable">true</item>
+        <item name="android:inputType">text</item>
+        <item name="android:theme">@style/AppTheme.AppBarOverlay</item>
+    </style>
+
+    <style name="suggestion_name">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/montserrat</item>
+        <item name="android:layout_marginStart">4dp</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="suggestion_recyclerview">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+    </style>
+
+    <style name="suggestion_name_stock">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/montserrat</item>
+        <item name="android:layout_marginRight">@dimen/normal_indent</item>
+        <item name="android:layout_marginLeft">@dimen/normal_indent</item>
+        <item name="android:layout_marginBottom">12dp</item>
+        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="suggestion_card_view">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">4dp</item>
+        <item name="android:layout_marginBottom">@dimen/small_indent</item>
+    </style>
+
+    <style name="stock_current_price">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">14dp</item>
+        <item name="android:layout_marginEnd">@dimen/normal_indent</item>
+        <item name="android:fontFamily">@font/montserrat</item>
+        <item name="android:textColor">#1A1A1A</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="stock_delta_day">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">12dp</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:layout_marginBottom">14dp</item>
+        <item name="android:fontFamily">@font/montserrat</item>
+        <item name="android:textColor">@color/green_delta</item>
+        <item name="android:textSize">@dimen/small_size</item>
+    </style>
+
+    <style name="stock_favourite">
+        <item name="android:layout_width">@dimen/normal_indent</item>
+        <item name="android:layout_height">18dp</item>
+        <item name="android:layout_marginStart">@dimen/small_indent</item>
+    </style>
+
+    <style name="stock_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">12dp</item>
+        <item name="android:fontFamily">@font/montserrat</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/small_size</item>
+    </style>
+
+    <style name="stock_ticker">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">12dp</item>
+        <item name="android:layout_marginTop">14dp</item>
+        <item name="android:fontFamily">@font/montserrat</item>
+        <item name="android:textColor">#1A1A1A</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="stock_logo">
+        <item name="android:layout_width">52dp</item>
+        <item name="android:layout_height">52dp</item>
+    </style>
+
+    <style name="stock_card_view">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/small_indent</item>
+    </style>
+
+    <style name="item_search_recyclerview">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/small_indent</item>
+    </style>
+
+    <style name="item_search_btn_show_more">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">4dp</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:padding">0dp</item>
+        <item name="android:fontFamily">@font/montserrat</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <!--item styles -->
+
+    <style name="item_stock_name_section">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/montserrat</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!--item news styles -->
+
+    <style name="item_news_headline">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily">@font/montserrat</item>
+    </style>
+
+    <style name="item_news_data">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/normal_indent</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">@font/montserrat</item>
+        <item name="android:textColor">@color/grey</item>
+    </style>
+
+    <style name="item_news_source">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/normal_indent</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">@font/montserrat</item>
+        <item name="android:textColor">@color/grey</item>
+    </style>
+
+    <!--Summary styles -->
+
+    <style name="summary_description">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#676367</item>
+        <item name="android:fontFamily">@font/montserrat</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="summary_title">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:layout_marginTop">@dimen/small_indent</item>
+        <item name="android:fontFamily">@font/montserrat</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+
+    <style name="summary_country">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/dark_grey</item>
+        <item name="android:fontFamily">@font/montserrat</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="summary_title_sector">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/small_indent</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily">@font/montserrat</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+
+    <style name="summary_sector">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/dark_grey</item>
+        <item name="android:fontFamily">@font/montserrat</item>
+        <item name="android:textSize">14sp</item>
     </style>
 </resources>

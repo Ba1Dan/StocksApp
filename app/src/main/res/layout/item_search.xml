@@ -6,42 +6,23 @@
 
     <TextView
         android:id="@+id/tv_name_section"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/montserrat"
-        android:text="Stocks"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        android:textStyle="bold"
+        android:text="@string/item_search_deafult_name_section"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintTop_toTopOf="parent"
+        style="@style/item_stock_name_section" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_show_more"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="4dp"
-        android:background="@color/white"
-        android:padding="0dp"
-        android:fontFamily="@font/montserrat"
-        android:stateListAnimator="@null"
-        android:text="Show more"
-        android:textAllCaps="false"
-        android:textColor="@color/black"
-        android:textSize="12sp"
-        android:textStyle="normal"
+        android:text="@string/item_search_show_more"
         app:layout_constraintBottom_toBottomOf="@id/tv_name_section"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tv_name_section" />
+        app:layout_constraintTop_toTopOf="@+id/tv_name_section"
+        style="@style/item_search_btn_show_more" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_result_search"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_name_section" />
-
+        app:layout_constraintTop_toBottomOf="@+id/tv_name_section"
+        style="@style/item_search_recyclerview" />
 </androidx.constraintlayout.widget.ConstraintLayout>

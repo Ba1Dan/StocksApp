@@ -2,15 +2,13 @@ package com.baiganov.stocksapp.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.baiganov.stocksapp.R
 import com.baiganov.stocksapp.adapters.PagerViewAdapter
+import com.baiganov.stocksapp.api.ApiFactory
 import com.baiganov.stocksapp.data.entity.convertToFavourite
 import com.baiganov.stocksapp.data.model.Stock
 import com.baiganov.stocksapp.db.StocksDatabase
@@ -37,14 +35,13 @@ class DetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_detail)
         initView()
         val database = StocksDatabase.create(applicationContext)
-        detailViewModel = ViewModelProvider(this, DetailFactory(FavouriteRepositoryImpl(database.favouriteStockDao), DetailRepositoryImpl(database.stockDao))).get(DetailViewModel::class.java)
+        detailViewModel = ViewModelProvider(this, DetailFactory(FavouriteRepositoryImpl(database.favouriteStockDao), DetailRepositoryImpl(database.stockDao, ApiFactory.apiServiceFin))).get(DetailViewModel::class.java)
         val argument = intent.extras
         if (argument != null) {
             val stock = argument.getSerializable("stock") as Stock
             detailViewModel.getStock(stock.ticker)
         }
         detailViewModel.data.observe(this, { stock ->
-            //Log.d("DEBUG", stock)
             if (stock != null) {
                 bind(stock)
                 setupTabLayout(stock)
@@ -55,7 +52,7 @@ class DetailActivity : AppCompatActivity() {
 
     private fun initView() {
         tvName = findViewById(R.id.tv_name_stock)
-        tvTicker = findViewById(R.id.tv_ticker_stock)
+        tvTicker = findViewById(R.id.tv_title_stock)
         viewPager = findViewById(R.id.view_pager)
         tablayout = findViewById(R.id.tab_layout)
         btnBack = findViewById(R.id.btn_back)
@@ -79,6 +76,7 @@ class DetailActivity : AppCompatActivity() {
             when(position) {
                 0 -> {
                     tab.text = "Chart"
+
                 }
 
                 1 -> {

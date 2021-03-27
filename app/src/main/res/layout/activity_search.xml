@@ -8,48 +8,30 @@
 
     <androidx.appcompat.widget.SearchView
         android:id="@+id/sv_active"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/custom_active_searchview"
-        android:focusable="true"
-        android:inputType="text"
         app:closeIcon="@drawable/ic_close"
         app:iconifiedByDefault="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:theme="@style/AppTheme.AppBarOverlay"
         app:queryHint=""
-        app:searchIcon="@drawable/ic_back" />
+        app:searchIcon="@drawable/ic_back"
+        style="@style/search_search_view" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_search"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sv_active" />
+        app:layout_constraintTop_toBottomOf="@+id/sv_active"
+        style="@style/search_recyclerview" />
 
     <TextView
         android:id="@+id/tv_notification_search"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Ничего не найдено"
-        android:textSize="16sp"
-        android:fontFamily="@font/montserrat"
-        android:textColor="@color/grey"
-        android:visibility="gone"
+        android:text="@string/notification_search"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sv_active"  />
+        app:layout_constraintTop_toBottomOf="@+id/sv_active"
+        style="@style/search_notification" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,27 +15,19 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/mainToolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="20dp"
             app:collapseIcon="@drawable/ic_back"
-            android:paddingEnd="16dp"
             app:layout_scrollFlags="scroll|enterAlways"
-            tools:ignore="RtlSymmetry">
+            tools:ignore="RtlSymmetry"
+            style="@style/main_toolbar">
 
             <androidx.appcompat.widget.SearchView
                 android:id="@+id/sv_main"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/custom_searchview"
-                android:focusable="false"
                 app:iconifiedByDefault="false"
                 app:queryHint="Find company or ticker"
                 app:searchIcon="@drawable/ic_search"
-                app:closeIcon="@drawable/ic_close"/>
+                app:closeIcon="@drawable/ic_close"
+                style="@style/main_search_view" />
         </androidx.appcompat.widget.Toolbar>
-
-
     </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
@@ -55,47 +47,21 @@
 
             <TextView
                 android:id="@+id/tv_stocks"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="32sp"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:fontFamily="@font/montserrat"
-                android:text="Stocks"/>
+                android:text="@string/main_tab_stocks"
+                style="@style/main_tab_stocks" />
 
             <TextView
                 android:id="@+id/tv_favourite"
-                android:textStyle="bold"
-                android:layout_marginStart="20sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/grey"
-                android:textSize="24sp"
-                android:fontFamily="@font/montserrat"
-                android:text="Favourite"/>
+                android:text="@string/main_tab_favourite"
+                style="@style/main_tab_favourite" />
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_main"
-            android:layout_marginTop="20sp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            style="@style/main_recyclerview" />
 
         <ProgressBar
             android:id="@+id/pb_main"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"/>
-
-        <TextView
-            android:id="@+id/tv_notification_favourite"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Данных нет"
-            android:textColor="@color/grey"
-            android:textSize="16sp"
-            android:visibility="gone"
-            android:fontFamily="@font/montserrat"
-            android:layout_gravity="center"/>
+            style="@style/main_progress_bar" />
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

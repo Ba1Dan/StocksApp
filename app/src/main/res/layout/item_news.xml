@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/news_headline"
+        android:text="@string/item_news_title_headline"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        style="@style/item_news_headline" />
+
+    <TextView
+        android:id="@+id/news_date"
+        android:text="@string/item_news_deault_data"
+        app:layout_constraintTop_toBottomOf="@id/news_headline"
+        app:layout_constraintStart_toStartOf="parent"
+        style="@style/item_news_data" />
+
+    <TextView
+        android:id="@+id/news_source"
+        android:text="@string/item_news_default_source"
+        app:layout_constraintStart_toEndOf="@+id/news_date"
+        app:layout_constraintBottom_toBottomOf="@id/news_date"
+        app:layout_constraintTop_toTopOf="@id/news_date"
+        style="@style/item_news_source" />
+</androidx.constraintlayout.widget.ConstraintLayout>

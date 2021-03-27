@@ -78,7 +78,7 @@ class StocksAdapter(
 
         private val cvViewHolder: CardView = itemView.findViewById(R.id.cv_view_holder)
         private val tvTitleTicker: TextView = itemView.findViewById(R.id.tv_title_ticker)
-        private val tvTitleStock: TextView = itemView.findViewById(R.id.tv_ticker_stock)
+        private val tvTitleStock: TextView = itemView.findViewById(R.id.tv_title_stock)
         private val tvDeltaDay: TextView = itemView.findViewById(R.id.tv_day_delta)
         private val ivLogoStock: ImageView = itemView.findViewById(R.id.iv_logo_stock)
         private val tvCurrentPrice: TextView = itemView.findViewById(R.id.tv_current_price)

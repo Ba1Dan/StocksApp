@@ -1,17 +1,16 @@
 package com.baiganov.stocksapp.viewmodel
 
-import android.util.Log
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.baiganov.stocksapp.data.entity.FavouriteEntity
-import com.baiganov.stocksapp.data.entity.convertToFavourite
 import com.baiganov.stocksapp.data.entity.convertToStock
 import com.baiganov.stocksapp.data.model.Stock
-import com.baiganov.stocksapp.db.FavouriteStockDao
 import com.baiganov.stocksapp.repositories.FavouriteRepository
 import com.baiganov.stocksapp.repositories.StocksRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.lang.Exception
 
 class MainViewModel(
     private val stocksRepository: StocksRepository,
@@ -39,7 +38,6 @@ class MainViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             favouriteRepository.deleteStock(stock)
             stocksRepository.updateStock(convertToStock(stock))
-            Log.d("TESTT", tvStocks.toString())
             if (tvStocks) {
                 _data.postValue(stocksRepository.getStocks())
             } else {
@@ -89,7 +87,6 @@ class MainViewModel(
                     stocksRepository.updateStock(it)
                 }
             }
-            Log.d("DEBUG", "viewmodel")
             _data.postValue(data)
         }
     }

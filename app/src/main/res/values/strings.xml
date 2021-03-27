@@ -2,4 +2,23 @@
     <string name="app_name">StocksApp</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="default_ticker">AAPL</string>
+    <string name="default_name">Apple Inc.</string>
+    <string name="desc_btn_back">button back</string>
+    <string name="desc_btn_favourite">btn_favourite</string>
+    <string name="main_tab_favourite">Favourite</string>
+    <string name="main_tab_stocks">Stocks</string>
+    <string name="notification_search">Nothing found</string>
+    <string name="default_price">4764,6 P</string>
+    <string name="default_delta">+$ 0.12(1,15%)</string>
+    <string name="stock_default_title">YANDEX</string>
+    <string name="stock_default_ticker">YNDX</string>
+    <string name="desc_logo_company">logo company</string>
+    <string name="item_search_deafult_name_section">Stocks</string>
+    <string name="item_search_show_more">Show more</string>
+    <string name="item_news_title_headline">HeadLine</string>
+    <string name="item_news_deault_data">23 March in 16:01</string>
+    <string name="item_news_default_source">Interfax</string>
+    <string name="summary_title_country">Country</string>
+    <string name="summary_title_sector">Sector</string>
 </resources>

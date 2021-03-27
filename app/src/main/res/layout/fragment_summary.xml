@@ -1,14 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="16dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragments.SummaryFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Этого" />
+   <TextView
+       android:id="@+id/tv_stock_description"
+       app:layout_constraintTop_toTopOf="parent"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintEnd_toEndOf="parent"
+       style="@style/summary_description" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/title_country"
+        android:text="@string/summary_title_country"
+        app:layout_constraintTop_toBottomOf="@id/tv_stock_description"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        style="@style/summary_title" />
+
+    <TextView
+        android:id="@+id/tv_stock_country"
+        app:layout_constraintTop_toBottomOf="@+id/title_country"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        style="@style/summary_country" />
+
+    <TextView
+        android:id="@+id/title_sector"
+        android:text="@string/summary_title_sector"
+        app:layout_constraintTop_toBottomOf="@id/tv_stock_country"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        style="@style/summary_title_sector" />
+
+    <TextView
+        android:id="@+id/tv_stock_sector"
+        app:layout_constraintTop_toBottomOf="@+id/title_sector"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        style="@style/summary_sector" />
+</androidx.constraintlayout.widget.ConstraintLayout>
