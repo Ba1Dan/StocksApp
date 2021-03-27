@@ -104,7 +104,7 @@ class MainActivity : AppCompatActivity() {
 
             override fun onClickItem(stock: Stock) {
                 val intent = Intent(this@MainActivity, DetailActivity::class.java)
-                intent.putExtra("stock", stock)
+                intent.putExtra("ticker", stock.ticker)
                 startActivity(intent)
             }
 

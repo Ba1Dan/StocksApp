@@ -34,7 +34,7 @@ class DetailViewModel(private val favouriteRepository: FavouriteRepository, priv
 
     fun getStock(stockTicker: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            _data.postValue(detailRepositoryImpl.get(stockTicker))
+            _data.postValue(detailRepositoryImpl.getStock(stockTicker))
         }
     }
 

@@ -9,8 +9,14 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import com.baiganov.stocksapp.R
+import com.baiganov.stocksapp.api.ApiFactory
 import com.baiganov.stocksapp.data.model.Stock
+import com.baiganov.stocksapp.db.StocksDatabase
+import com.baiganov.stocksapp.repositories.DetailRepositoryImpl
+import com.baiganov.stocksapp.viewmodel.ChartFactory
+import com.baiganov.stocksapp.viewmodel.ChartViewModel
 import kotlin.math.abs
 
 
@@ -26,7 +32,7 @@ class ChartFragment : Fragment() {
     private lateinit var tvCurrentPrice: TextView
     private lateinit var tvDeltaDay: TextView
     private lateinit var btnBuy: Button
-
+    private lateinit var chartViewModel: ChartViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,10 +44,15 @@ class ChartFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initView(view)
         setupClickListener()
+        val database = StocksDatabase.create(requireContext())
+        chartViewModel = ViewModelProvider(this, ChartFactory(DetailRepositoryImpl(database.stockDao, ApiFactory.apiServiceFin, database.newsDao))).get(ChartViewModel::class.java)
         if (arguments != null) {
-            val stock = arguments?.getSerializable("stock") as Stock
-            bind(stock)
+            val ticker = arguments?.getSerializable("ticker") as String
+            chartViewModel.getStock(ticker)
         }
+        chartViewModel.data.observe(viewLifecycleOwner, {
+            bind(it)
+        })
     }
 
     private fun initView(view: View) {
@@ -118,9 +129,9 @@ class ChartFragment : Fragment() {
         private const val MINUS = "-"
         private const val TEXT_BUTTON = "Buy for"
 
-        fun getNewInstance(stock: Stock): ChartFragment {
+        fun getNewInstance(ticker: String): ChartFragment {
             val bundle = Bundle()
-            bundle.putSerializable("stock", stock)
+            bundle.putSerializable("ticker", ticker)
             val fragment = ChartFragment()
             fragment.arguments = bundle
             return fragment

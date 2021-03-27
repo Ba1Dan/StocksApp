@@ -5,22 +5,24 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.*
 import com.baiganov.stocksapp.data.model.News
+import com.baiganov.stocksapp.db.NewsDao
 import com.baiganov.stocksapp.repositories.DetailRepositoryImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import okhttp3.Dispatcher
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
-class NewsViewModel(private val detailRepositoryImpl: DetailRepositoryImpl) : ViewModel() {
+class NewsViewModel(
+    private val detailRepositoryImpl: DetailRepositoryImpl,
+) : ViewModel() {
 
-    private val _news = MutableLiveData<List<News>>()
-
-    val news: LiveData<List<News>> = _news
+    val news = detailRepositoryImpl.getNews()
 
     fun load(ticker: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            val data = detailRepositoryImpl.getNews(ticker)
-            _news.postValue(data)
+            detailRepositoryImpl.loadNews(ticker)
         }
     }
 }

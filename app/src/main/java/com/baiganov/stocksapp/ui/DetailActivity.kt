@@ -35,16 +35,16 @@ class DetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_detail)
         initView()
         val database = StocksDatabase.create(applicationContext)
-        detailViewModel = ViewModelProvider(this, DetailFactory(FavouriteRepositoryImpl(database.favouriteStockDao), DetailRepositoryImpl(database.stockDao, ApiFactory.apiServiceFin))).get(DetailViewModel::class.java)
+        detailViewModel = ViewModelProvider(this, DetailFactory(FavouriteRepositoryImpl(database.favouriteStockDao), DetailRepositoryImpl(database.stockDao, ApiFactory.apiServiceFin, database.newsDao))).get(DetailViewModel::class.java)
         val argument = intent.extras
         if (argument != null) {
-            val stock = argument.getSerializable("stock") as Stock
-            detailViewModel.getStock(stock.ticker)
+            val ticker = argument.getSerializable("ticker") as String
+            detailViewModel.getStock(ticker)
         }
         detailViewModel.data.observe(this, { stock ->
             if (stock != null) {
                 bind(stock)
-                setupTabLayout(stock)
+                setupTabLayout(stock.ticker)
                 setupClickListener(stock)
             }
         })
@@ -69,8 +69,8 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupTabLayout(stock: Stock) {
-        val adapter = PagerViewAdapter(supportFragmentManager, lifecycle, stock)
+    private fun setupTabLayout(ticker: String) {
+        val adapter = PagerViewAdapter(supportFragmentManager, lifecycle, ticker)
         viewPager.adapter = adapter
         TabLayoutMediator(tablayout, viewPager) { tab, position ->
             when(position) {

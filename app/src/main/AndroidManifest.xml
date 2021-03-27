@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.StocksApp">
-        <activity android:name=".ui.DetailActivity"></activity>
+        <activity android:name=".ui.DetailNewsActivity"></activity>
+        <activity android:name=".ui.DetailActivity" />
         <activity android:name=".ui.SearchActivity" />
         <activity android:name=".ui.MainActivity">
             <intent-filter>
