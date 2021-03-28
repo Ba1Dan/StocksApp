@@ -90,7 +90,7 @@ class ChartFragment : Fragment() {
                     "(" + String.format("%.2f", stock.percentDelta) + PERCENT + ")"
             tvDeltaDay.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
         }
-        btnBuy.text = TEXT_BUTTON + " $PERCENT ${stock.currentPrice}"
+        btnBuy.text = TEXT_BUTTON + " $SIGN ${stock.currentPrice}"
     }
 
     private fun setupClickListener() {
