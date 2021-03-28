@@ -21,4 +21,12 @@
     <string name="item_news_default_source">Interfax</string>
     <string name="summary_title_country">Country</string>
     <string name="summary_title_sector">Sector</string>
+    <string name="desc_graph">graph</string>
+    <string name="day">D</string>
+    <string name="week">W</string>
+    <string name="month">M</string>
+    <string name="half_year">6M</string>
+    <string name="year">1Y</string>
+    <string name="all">All</string>
+    <string name="title_buy_for">Buy for</string>
 </resources>

@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
         android:fontFamily="@font/montserrat"
-        android:text="$131.93"
+        android:text="@string/default_price"
         android:textColor="@color/black"
         android:textSize="28sp"
         android:textStyle="bold"
@@ -26,140 +26,83 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/montserrat"
-        android:text="+$0.12 (1,15%)"
+        android:text="@string/default_delta"
         android:textColor="#24B35D"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="@id/tv_current_price_detail"
         app:layout_constraintStart_toStartOf="@+id/tv_current_price_detail"
         app:layout_constraintTop_toBottomOf="@id/tv_current_price_detail" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
+    <ImageView
+        android:id="@+id/iv_graphic"
         android:layout_width="match_parent"
         android:layout_height="400dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_delta_day_detail"
-        android:orientation="vertical">
+        android:src="@drawable/graph"
+        android:contentDescription="@string/desc_graph">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textSize="24sp"
-            android:gravity="center"
-            android:text="Здесь график!!!"/>
-    </LinearLayout>
+    </ImageView>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_day"
-        style="@style/rounded_small_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:minWidth="16dp"
-        android:minHeight="16dp"
-        android:padding="16dp"
-        android:stateListAnimator="@null"
-        android:text="D"
+        style="@style/small_button"
+        android:text="@string/day"
         app:layout_constraintEnd_toStartOf="@id/btn_week"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/linearLayout" />
+        app:layout_constraintTop_toBottomOf="@id/iv_graphic" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_week"
-        style="@style/rounded_small_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:minWidth="16dp"
-        android:minHeight="16dp"
-        android:padding="16dp"
-        android:stateListAnimator="@null"
-        android:text="W"
-
+        style="@style/small_button"
+        android:text="@string/week"
         app:layout_constraintEnd_toStartOf="@id/btn_month"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toEndOf="@+id/btn_day"
-        app:layout_constraintTop_toBottomOf="@id/linearLayout" />
+        app:layout_constraintTop_toBottomOf="@id/iv_graphic" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_month"
-        style="@style/rounded_small_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:minWidth="16dp"
-        android:minHeight="16dp"
-        android:padding="16dp"
-        android:stateListAnimator="@null"
-        android:text="M"
+        style="@style/small_button"
+        android:text="@string/month"
         app:layout_constraintEnd_toStartOf="@id/btn_half_year"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toEndOf="@+id/btn_week"
-        app:layout_constraintTop_toBottomOf="@id/linearLayout" />
+        app:layout_constraintTop_toBottomOf="@id/iv_graphic" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_half_year"
-        style="@style/rounded_small_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:minWidth="16dp"
-        android:minHeight="16dp"
-        android:padding="16dp"
-        android:stateListAnimator="@null"
-        android:text="6M"
+        style="@style/small_button"
+        android:text="@string/half_year"
         app:layout_constraintEnd_toStartOf="@id/btn_year"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toEndOf="@+id/btn_month"
-        app:layout_constraintTop_toBottomOf="@id/linearLayout" />
+        app:layout_constraintTop_toBottomOf="@id/iv_graphic" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_year"
-        style="@style/rounded_small_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:minWidth="16dp"
-        android:minHeight="16dp"
-        android:padding="16dp"
-        android:stateListAnimator="@null"
-        android:text="1Y"
+        style="@style/small_button"
+        android:text="@string/year"
         app:layout_constraintEnd_toStartOf="@id/btn_all"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toEndOf="@+id/btn_half_year"
-        app:layout_constraintTop_toBottomOf="@id/linearLayout" />
+        app:layout_constraintTop_toBottomOf="@id/iv_graphic" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_all"
-        style="@style/rounded_active_small_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:minWidth="16dp"
-        android:minHeight="16dp"
-        android:padding="16dp"
-        android:stateListAnimator="@null"
-        android:text="All"
+        style="@style/small_button"
+        android:text="@string/all"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toEndOf="@+id/btn_year"
-        app:layout_constraintTop_toBottomOf="@id/linearLayout" />
-
+        app:layout_constraintTop_toBottomOf="@id/iv_graphic" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_buy"
-        style="@style/rounded_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="20dp"
-        android:text="Buy for"
-        android:layout_marginTop="50dp"
+        style="@style/btn_buy"
+        android:text="@string/title_buy_for"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -41,33 +41,40 @@ class SearchActivity : AppCompatActivity() {
         setupViewModel()
         setupRecyclerView()
         setupSearchView()
-        btnBack.setOnClickListener{
+        btnBack.setOnClickListener {
             finish()
         }
     }
 
     private fun setupViewModel() {
         val database = StocksDatabase.create(applicationContext)
-        searchViewModel = ViewModelProvider(this, SearchFactory(SearchRepositoryImpl(database.stockDao, database.suggestionDao), FavouriteRepositoryImpl(database.favouriteStockDao))).get(
-            SearchViewModel::class.java)
+        searchViewModel = ViewModelProvider(
+            this,
+            SearchFactory(
+                SearchRepositoryImpl(database.stockDao, database.suggestionDao),
+                FavouriteRepositoryImpl(database.favouriteStockDao)
+            )
+        ).get(
+            SearchViewModel::class.java
+        )
     }
 
     private fun initView() {
         rvSearch = findViewById(R.id.rv_search)
         searchView = findViewById(R.id.sv_active)
         btnBack = searchView.findViewById(androidx.appcompat.R.id.search_mag_icon)
-        tvNotificationSearch =findViewById(R.id.tv_notification_search)
+        tvNotificationSearch = findViewById(R.id.tv_notification_search)
     }
 
     private fun setupSearchView() {
         searchView.requestFocus()
         setupSuggestions()
-        searchView.setOnQueryTextFocusChangeListener(object: View.OnFocusChangeListener {
+        searchView.setOnQueryTextFocusChangeListener(object : View.OnFocusChangeListener {
 
             override fun onFocusChange(p0: View?, p1: Boolean) {
                 if (p1 && searchView.query.toString().isEmpty()) {
                     setupSuggestions()
-                } else if (searchView.query.toString().isEmpty()){
+                } else if (searchView.query.toString().isEmpty()) {
                     finish()
                 }
             }
@@ -136,7 +143,23 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun setupSuggestions() {
-        val data = mutableListOf(Suggestion(POPULAR, listOf("Apple", "First Solar", "Yandex", "Alibaba", "Tesla", "Amazon", "Google", "Microsoft", "Mastercard", "Facebook")))
+        val data = mutableListOf(
+            Suggestion(
+                POPULAR,
+                listOf(
+                    "Apple",
+                    "First Solar",
+                    "Yandex",
+                    "Alibaba",
+                    "Tesla",
+                    "Amazon",
+                    "Google",
+                    "Microsoft",
+                    "Mastercard",
+                    "Facebook"
+                )
+            )
+        )
         searchViewModel.recentQueries.observe(this, {
             if (it.isNotEmpty()) {
                 data.add(Suggestion(RECENT, it.reversed()))

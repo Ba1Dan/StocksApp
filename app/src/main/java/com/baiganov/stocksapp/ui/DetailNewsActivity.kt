@@ -29,6 +29,14 @@ class DetailNewsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_news)
         initView()
+        setupViewModel()
+        btnBack.setOnClickListener {
+            finish()
+        }
+    }
+
+    @ExperimentalSerializationApi
+    private fun setupViewModel() {
         val database = StocksDatabase.create(applicationContext)
         detailNewsViewModel = ViewModelProvider(
             this,
@@ -48,9 +56,6 @@ class DetailNewsActivity : AppCompatActivity() {
         detailNewsViewModel.data.observe(this, {
             bind(it)
         })
-        btnBack.setOnClickListener {
-            finish()
-        }
     }
 
     private fun initView() {

@@ -43,7 +43,6 @@ class DetailRepositoryImpl(
                 )
             )
         }
-        newsDao.deleteAll()
         newsDao.insert(result)
     }
 
@@ -57,6 +56,10 @@ class DetailRepositoryImpl(
         ) {
             newsDao.news()
         }.flow
+    }
+
+    suspend fun clear() {
+        newsDao.deleteAll()
     }
 
     suspend fun updateStock(stock: Stock) {

@@ -36,6 +36,11 @@ class DetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
         initView()
+        setupViewModel()
+    }
+
+    @ExperimentalSerializationApi
+    private fun setupViewModel() {
         val database = StocksDatabase.create(applicationContext)
         detailViewModel = ViewModelProvider(
             this,
@@ -46,10 +51,8 @@ class DetailActivity : AppCompatActivity() {
         ).get(DetailViewModel::class.java)
         val argument = intent.extras
         if (argument != null) {
-            val ticker = argument.getString("ticker")
-            if (ticker != null) {
-                detailViewModel.getStock(ticker)
-            }
+            val ticker = argument.getSerializable("ticker") as String
+            detailViewModel.getStock(ticker)
         }
         detailViewModel.data.observe(this, { stock ->
             if (stock != null) {

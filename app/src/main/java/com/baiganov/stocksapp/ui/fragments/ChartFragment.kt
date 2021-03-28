@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.baiganov.stocksapp.R
@@ -17,6 +18,7 @@ import com.baiganov.stocksapp.db.StocksDatabase
 import com.baiganov.stocksapp.repositories.DetailRepositoryImpl
 import com.baiganov.stocksapp.viewmodel.ChartFactory
 import com.baiganov.stocksapp.viewmodel.ChartViewModel
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlin.math.abs
 
 
@@ -41,9 +43,15 @@ class ChartFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_chart, container, false)
     }
 
+    @ExperimentalSerializationApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initView(view)
         setupClickListener()
+        setupViewModel()
+    }
+
+    @ExperimentalSerializationApi
+    private fun setupViewModel() {
         val database = StocksDatabase.create(requireContext())
         chartViewModel = ViewModelProvider(this, ChartFactory(DetailRepositoryImpl(database.stockDao, ApiFactory.apiServiceFin, database.newsDao))).get(ChartViewModel::class.java)
         if (arguments != null) {
@@ -54,6 +62,7 @@ class ChartFragment : Fragment() {
             bind(it)
         })
     }
+
 
     private fun initView(view: View) {
         tvCurrentPrice = view.findViewById(R.id.tv_current_price_detail)
@@ -81,7 +90,7 @@ class ChartFragment : Fragment() {
                     "(" + String.format("%.2f", stock.percentDelta) + PERCENT + ")"
             tvDeltaDay.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
         }
-        btnBuy.text = TEXT_BUTTON + stock.currentPrice.toString()
+        btnBuy.text = TEXT_BUTTON + " $PERCENT ${stock.currentPrice}"
     }
 
     private fun setupClickListener() {
@@ -107,6 +116,10 @@ class ChartFragment : Fragment() {
 
         btnAll.setOnClickListener {
             changeStyleButton(btnAll.text.toString())
+        }
+
+        btnBuy.setOnClickListener {
+            Toast.makeText(requireContext(), "Bought", Toast.LENGTH_SHORT).show()
         }
     }
 

@@ -31,6 +31,7 @@ class NewsFragment : Fragment() {
 
     private lateinit var newsViewModel: NewsViewModel
     private lateinit var rvNews: RecyclerView
+    private lateinit var rvAdapter: NewsAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,29 +43,37 @@ class NewsFragment : Fragment() {
     @ExperimentalSerializationApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initView(view)
-        val adapter =  NewsAdapter(object : ClickListenerNews {
+        setupRecyclerView()
+        setupViewModel()
+    }
+
+    private fun setupRecyclerView() {
+        rvAdapter =  NewsAdapter(object : ClickListenerNews {
             override fun onClickItem(id: Int) {
                 val intent = Intent(activity, DetailNewsActivity::class.java)
                 intent.putExtra("id", id)
                 startActivity(intent)
             }
         })
-        rvNews.adapter = adapter
+        rvNews.adapter = rvAdapter
         rvNews.layoutManager = LinearLayoutManager(requireContext())
+    }
+
+    @ExperimentalSerializationApi
+    private fun setupViewModel() {
         val database = StocksDatabase.create(requireContext())
         newsViewModel = ViewModelProvider(this, NewsFactory(DetailRepositoryImpl(database.stockDao, ApiFactory.apiServiceFin, database.newsDao))).get(NewsViewModel::class.java)
         if (arguments != null) {
             val ticker = arguments?.getString("ticker") as String
             newsViewModel.load(ticker)
         }
-
+        newsViewModel.clear()
         lifecycleScope.launch {
             newsViewModel.news.collectLatest {
-                adapter.submitData(it)
+                rvAdapter.submitData(it)
             }
         }
     }
-
 
     private fun initView(view: View) {
         rvNews = view.findViewById(R.id.rv_news)

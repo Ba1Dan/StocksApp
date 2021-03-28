@@ -378,4 +378,24 @@
         <item name="android:fontFamily">@font/montserrat</item>
         <item name="android:textSize">14sp</item>
     </style>
+
+    <style name="small_button" parent="rounded_small_button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/normal_indent</item>
+        <item name="android:layout_marginTop">@dimen/normal_indent</item>
+        <item name="android:minWidth">@dimen/normal_indent</item>
+        <item name="android:minHeight">@dimen/normal_indent</item>
+        <item name="android:padding">@dimen/normal_indent</item>
+        <item name="android:stateListAnimator">@null</item>
+    </style>
+
+    <style name="btn_buy" parent="rounded_button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/normal_indent</item>
+        <item name="android:layout_marginEnd">@dimen/normal_indent</item>
+        <item name="android:layout_marginBottom">20dp</item>
+        <item name="android:layout_marginTop">50dp</item>
+    </style>
 </resources>

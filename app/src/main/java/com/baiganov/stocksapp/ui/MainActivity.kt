@@ -46,12 +46,7 @@ class MainActivity : AppCompatActivity() {
         setupRecyclerView()
         setupViewModel()
         setupSearchView()
-        tvStocks.setOnClickListener {
-            updateStocks()
-        }
-        tvFavourite.setOnClickListener {
-            updateFavourite()
-        }
+        setupClickListener()
     }
 
     override fun onStart() {
@@ -61,6 +56,15 @@ class MainActivity : AppCompatActivity() {
             mainViewModel.loadData()
         } else {
             mainViewModel.getDataFavourite()
+        }
+    }
+
+    private fun setupClickListener() {
+        tvStocks.setOnClickListener {
+            updateStocks()
+        }
+        tvFavourite.setOnClickListener {
+            updateFavourite()
         }
     }
 

@@ -25,4 +25,10 @@ class NewsViewModel(
             detailRepositoryImpl.loadNews(ticker)
         }
     }
+
+    fun clear() {
+        viewModelScope.launch(Dispatchers.IO) {
+            detailRepositoryImpl.clear()
+        }
+    }
 }

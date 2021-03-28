@@ -30,8 +30,13 @@ class SummaryFragment : Fragment() {
 
     @ExperimentalSerializationApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel = SummaryViewModel(ApiFactory.apiServiceAlpha)
         initView(view)
+        setupViewModel()
+    }
+
+    @ExperimentalSerializationApi
+    private fun setupViewModel() {
+        viewModel = SummaryViewModel(ApiFactory.apiServiceAlpha)
         if (arguments != null) {
             val ticker = arguments?.getSerializable("ticker") as String
             viewModel.load(ticker)
