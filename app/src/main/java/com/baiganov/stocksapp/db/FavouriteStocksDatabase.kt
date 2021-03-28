@@ -20,7 +20,7 @@ abstract class StocksDatabase : RoomDatabase() {
 
     companion object {
         fun create(context: Context): StocksDatabase =
-            Room.databaseBuilder(context, StocksDatabase::class.java, "stocks_applic.db")
+            Room.databaseBuilder(context, StocksDatabase::class.java, "stocks_applica.db")
                 .build()
     }
 }

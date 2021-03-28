@@ -1,9 +1,11 @@
 package com.baiganov.stocksapp.repositories
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.paging.*
+import com.baiganov.stocksapp.adapters.NewsAdapter
 import com.baiganov.stocksapp.api.ApiServiceFin
 import com.baiganov.stocksapp.data.model.News
 import com.baiganov.stocksapp.data.model.Stock
@@ -13,6 +15,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class DetailRepositoryImpl(
@@ -32,7 +36,7 @@ class DetailRepositoryImpl(
             result.add(
                 News(
                     id = it.id,
-                    datetime = it.datetime,
+                    datetime = fromUnixToData(it.datetime),
                     headline = it.headline,
                     summary = it.summary,
                     source = it.source
@@ -57,5 +61,20 @@ class DetailRepositoryImpl(
 
     suspend fun updateStock(stock: Stock) {
         stocksDao.updateStock(stock)
+    }
+
+    suspend fun getNewsOnId(id: Int): News {
+        return newsDao.getNewsOnId(id)
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    private fun fromUnixToData(datetime: Long): String {
+        val sdf = SimpleDateFormat(FORMAT)
+        val netDate = Date(datetime * 1000)
+        return sdf.format(netDate)
+    }
+
+    companion object {
+        private const val FORMAT = "yyyy-MMMM-dd hh:mm a"
     }
 }

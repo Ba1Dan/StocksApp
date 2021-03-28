@@ -48,17 +48,10 @@ class MainViewModel(
         }
     }
 
-    fun load() {
-        viewModelScope.launch(Dispatchers.IO) {
-            val data = stocksRepository.updateDate(count++)
-            _data.postValue(data)
-        }
-    }
-
     fun loadData() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val data = stocksRepository.updateDate(count++)
+                val data = stocksRepository.updateData(count++)
                 val favourites = favouriteRepository.getNames()
                 data.forEach {
                     if (favourites.contains(it.name)) {
@@ -77,21 +70,8 @@ class MainViewModel(
         }
     }
 
-    fun getData() {
-        viewModelScope.launch(Dispatchers.IO) {
-            val data = stocksRepository.getStocks()
-            val favourites = favouriteRepository.getNames()
-            data.forEach {
-                if (favourites.contains(it.name)) {
-                    it.isFavourite = true
-                    stocksRepository.updateStock(it)
-                }
-            }
-            _data.postValue(data)
-        }
-    }
-
     fun getDataFavourite() {
+        count = 0
         viewModelScope.launch {
             _data.postValue(favouriteRepository.getStocks().map {
                 convertToStock(it)

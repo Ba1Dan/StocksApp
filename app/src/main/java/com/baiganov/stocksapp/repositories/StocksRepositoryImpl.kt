@@ -23,7 +23,7 @@ class StocksRepositoryImpl(
         stocksDao.updateStock(stock)
     }
 
-    override suspend fun updateDate(count: Int): List<Stock> {
+    override suspend fun updateData(count: Int): List<Stock> {
         val stocks = loadStocks(context)
         val result = mutableListOf<Stock>()
         for (i in 0*count..25*(count+1)) {
@@ -44,11 +44,11 @@ class StocksRepositoryImpl(
 
     private fun calculatePercent(yesterday: Float, today: Float): Double {
         val result = (today / yesterday  - 1 ) * 100
-        return abs((Math.round(result * 100.0) / 100.0).toDouble())
+        return abs((Math.round(result * 100.0) / 100.0))
     }
 
     private fun calculateDeltaPrice(yesterday: Float, today: Float): Double {
         val result = today - yesterday
-        return (Math.round(result * 100.0) / 100.0).toDouble()
+        return Math.round(result * 100.0) / 100.0
     }
 }

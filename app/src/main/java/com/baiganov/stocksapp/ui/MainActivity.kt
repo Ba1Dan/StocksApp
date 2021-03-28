@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
         searchView.clearFocus()
         if (tvStocks.currentTextColor == ContextCompat.getColor(applicationContext, R.color.black)) {
-            mainViewModel.getData()
+            mainViewModel.loadData()
         } else {
             mainViewModel.getDataFavourite()
         }
@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity() {
         tvStocks.textSize = 32F
         tvStocks.setTextColor(ContextCompat.getColor(applicationContext, R.color.black))
         tvFavourite.setTextColor(ContextCompat.getColor(applicationContext, R.color.grey))
-        mainViewModel.getData()
+        mainViewModel.loadData()
         mainViewModel.data.observe(this, {
             rvAdapter.setData(it)
         })
@@ -138,7 +138,7 @@ class MainActivity : AppCompatActivity() {
                     isNotLoadingAndNotLastPage && isAtLastItem && isNotAtBeginning &&
                             isTotalMoreThanVisible && isScrolling
                 if (shouldPaginate) {
-                    mainViewModel.load()
+                    mainViewModel.loadData()
                     isScrolling = false
                 }
             }

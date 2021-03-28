@@ -20,4 +20,7 @@ interface NewsDao {
 
     @Query("DELETE FROM news_table")
     suspend fun deleteAll()
+
+    @Query("SELECT * FROM news_table WHERE id = :id")
+    suspend fun getNewsOnId(id: Int): News
 }

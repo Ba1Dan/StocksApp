@@ -1,5 +1,6 @@
 package com.baiganov.stocksapp.ui.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -17,6 +18,8 @@ import com.baiganov.stocksapp.api.ApiFactory
 import com.baiganov.stocksapp.data.model.News
 import com.baiganov.stocksapp.db.StocksDatabase
 import com.baiganov.stocksapp.repositories.DetailRepositoryImpl
+import com.baiganov.stocksapp.ui.DetailActivity
+import com.baiganov.stocksapp.ui.DetailNewsActivity
 import com.baiganov.stocksapp.viewmodel.NewsFactory
 import com.baiganov.stocksapp.viewmodel.NewsViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -40,8 +43,10 @@ class NewsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initView(view)
         val adapter =  NewsAdapter(object : ClickListenerNews {
-            override fun onClickItem(news: News) {
-
+            override fun onClickItem(id: Int) {
+                val intent = Intent(activity, DetailNewsActivity::class.java)
+                intent.putExtra("id", id)
+                startActivity(intent)
             }
         })
         rvNews.adapter = adapter

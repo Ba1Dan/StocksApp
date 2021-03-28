@@ -35,18 +35,12 @@ class NewsAdapter(private val clickListener: ClickListenerNews) : PagingDataAdap
 
         fun bind(news: News) {
             headline.text = news.headline
-            date.text = fromUnixToData(news.datetime)
+            date.text = news.datetime
             source.text = news.source
 
             itemView.setOnClickListener {
-                clickListener.onClickItem(news)
+                clickListener.onClickItem(news.id)
             }
-        }
-
-        private fun fromUnixToData(datetime: Long): String {
-            val sdf = SimpleDateFormat(FORMAT)
-            val netDate = Date(datetime * 1000)
-            return sdf.format(netDate)
         }
     }
 
@@ -67,5 +61,5 @@ class NewsAdapter(private val clickListener: ClickListenerNews) : PagingDataAdap
 }
 
 interface ClickListenerNews {
-    fun onClickItem(news: News)
+    fun onClickItem(id: Int)
 }

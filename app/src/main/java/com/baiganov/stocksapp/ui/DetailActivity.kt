@@ -19,6 +19,7 @@ import com.baiganov.stocksapp.viewmodel.DetailViewModel
 import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.serialization.ExperimentalSerializationApi
 
 class DetailActivity : AppCompatActivity() {
 
@@ -30,16 +31,25 @@ class DetailActivity : AppCompatActivity() {
     private lateinit var tvTicker: TextView
     private lateinit var detailViewModel: DetailViewModel
 
+    @ExperimentalSerializationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
         initView()
         val database = StocksDatabase.create(applicationContext)
-        detailViewModel = ViewModelProvider(this, DetailFactory(FavouriteRepositoryImpl(database.favouriteStockDao), DetailRepositoryImpl(database.stockDao, ApiFactory.apiServiceFin, database.newsDao))).get(DetailViewModel::class.java)
+        detailViewModel = ViewModelProvider(
+            this,
+            DetailFactory(
+                FavouriteRepositoryImpl(database.favouriteStockDao),
+                DetailRepositoryImpl(database.stockDao, ApiFactory.apiServiceFin, database.newsDao)
+            )
+        ).get(DetailViewModel::class.java)
         val argument = intent.extras
         if (argument != null) {
-            val ticker = argument.getSerializable("ticker") as String
-            detailViewModel.getStock(ticker)
+            val ticker = argument.getString("ticker")
+            if (ticker != null) {
+                detailViewModel.getStock(ticker)
+            }
         }
         detailViewModel.data.observe(this, { stock ->
             if (stock != null) {
@@ -73,7 +83,7 @@ class DetailActivity : AppCompatActivity() {
         val adapter = PagerViewAdapter(supportFragmentManager, lifecycle, ticker)
         viewPager.adapter = adapter
         TabLayoutMediator(tablayout, viewPager) { tab, position ->
-            when(position) {
+            when (position) {
                 0 -> {
                     tab.text = "Chart"
 
