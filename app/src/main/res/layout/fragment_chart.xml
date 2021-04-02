@@ -92,7 +92,7 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_all"
-        style="@style/small_button"
+        style="@style/active_small_button"
         android:text="@string/all"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
