@@ -19,8 +19,25 @@ abstract class StocksDatabase : RoomDatabase() {
     abstract val suggestionDao: SuggestionDao
 
     companion object {
-        fun create(context: Context): StocksDatabase =
-            Room.databaseBuilder(context, StocksDatabase::class.java, "stocks_applica.db")
-                .build()
+        @Volatile
+        private var INSTANCE: StocksDatabase? = null
+        private const val DB_NAME = "main_application.db"
+
+        fun create(context: Context): StocksDatabase {
+            val tempInstance = INSTANCE
+            if (tempInstance != null) {
+                return tempInstance
+            }
+            synchronized(this) {
+                val instance = Room.databaseBuilder(
+                    context.applicationContext,
+                    StocksDatabase::class.java,
+                    DB_NAME
+                ).fallbackToDestructiveMigration()
+                    .build()
+                INSTANCE = instance
+                return instance
+            }
+        }
     }
 }
